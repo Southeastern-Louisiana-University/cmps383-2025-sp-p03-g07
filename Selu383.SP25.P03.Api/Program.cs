@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Selu383.SP25.P03.Api.Data;
 using Selu383.SP25.P03.Api.Features.Users;
+using Swashbuckle.AspNetCore;
 
 namespace Selu383.SP25.P03.Api
 {
@@ -24,6 +25,9 @@ namespace Selu383.SP25.P03.Api
             builder.Services.AddIdentity<User, Role>()
                 .AddEntityFrameworkStores<DataContext>()
                 .AddDefaultTokenProviders();
+
+            builder.Services.AddEndpointsApiExplorer();
+            builder.Services.AddSwaggerGen();
 
             builder.Services.Configure<IdentityOptions>(options =>
             {
@@ -81,6 +85,8 @@ namespace Selu383.SP25.P03.Api
             if (app.Environment.IsDevelopment())
             {
                 app.MapOpenApi();
+                app.UseSwagger();
+                app.UseSwaggerUI();
             }
 
             app.UseHttpsRedirection();
