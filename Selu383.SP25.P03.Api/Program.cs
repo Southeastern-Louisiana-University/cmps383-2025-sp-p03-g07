@@ -50,6 +50,18 @@ namespace Selu383.SP25.P03.Api
                 options.User.RequireUniqueEmail = false;
             });
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll",
+                    policy =>
+                    {
+                        policy.AllowAnyOrigin()
+                              .AllowAnyMethod()
+                              .AllowAnyHeader();
+                    });
+            });
+
+
             builder.Services.ConfigureApplicationCookie(options =>
             {
                 // Cookie settings
@@ -88,6 +100,8 @@ namespace Selu383.SP25.P03.Api
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseCors("AllowAll");
 
             app.UseHttpsRedirection();
             app.UseAuthentication();
