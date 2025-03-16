@@ -4,6 +4,7 @@ import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import TheaterList from '@/components/TheaterList';
 
 export default function HomeScreen() {
   return (
@@ -19,6 +20,15 @@ export default function HomeScreen() {
         <ThemedText type="title">Welcome!</ThemedText>
         <HelloWave />
       </ThemedView>
+
+
+      {/* Add TheaterList Component Here */}
+      <ThemedView style={styles.stepContainer}>
+        <ThemedText type="subtitle">Theaters</ThemedText>
+        <TheaterList /> {/* Display the list of theaters */}
+      </ThemedView>
+
+
       <ThemedView style={styles.stepContainer}>
         <ThemedText type="subtitle">Step 1: Try it</ThemedText>
         <ThemedText>
