@@ -2,20 +2,17 @@ import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
-import ReactDOM from "react-dom/client";
-import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
-import TheaterFetch from "./TheaterFetch";
+import { useNavigate } from "react-router-dom";
 
 function App() {
   const [count, setCount] = useState(0);
   const navigate = useNavigate();
 
-
   return (
     <>
       <div>
-      <h1>Home Page</h1>
-      <button onClick={() => navigate("/theater")}>Go to Theater</button>
+        <h1>Home Page</h1>
+        <button onClick={() => navigate("/theater")}>Go to Theater</button>
       </div>
 
       <div>
