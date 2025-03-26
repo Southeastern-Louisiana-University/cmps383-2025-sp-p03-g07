@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import "./MovieCarousel.css";
-import { Card } from "@mui/material";
+import { Card, CardMedia, Typography } from "@mui/material";
 
 type Showtime = {
   showtime: string;
@@ -39,13 +38,16 @@ function MovieCarousel() {
       <div className="carousel-container" id="carousel">
         {movies.map((movie) => (
           <Card key={movie.id} variant="outlined">
-            <img
-              src="https://via.placeholder.com/220x320?text=Poster"
-              alt={`${movie.title} Poster`}
-              className="poster-img"
+            <CardMedia
+              component="img"
+              alt="green iguana" // movie.name/movie.description
+              height="140" //probably convert to viewport
+              image="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwallpaperaccess.com%2Ffull%2F3075771.jpg&f=1&nofb=1&ipt=d54eb8edb6f75cd23f2925a16ce644cda0b42794da1a07e0e0e0cb8023bbc7ea&ipo=images" // movie.imgURL
             />
             <div className="movie-info">
-              <h2>{movie.title}</h2>
+              <Typography gutterBottom variant="h5" component="div">
+                {movie.title}
+              </Typography>
               <p>{movie.description}</p>
               <p>
                 <strong>Genre:</strong> {movie.genre}
