@@ -32,9 +32,11 @@ const TheaterPage = () => {
 
   return (
     <Box sx={{ padding: 3, textAlign: "center" }}>
-      <Typography variant="h4">{theater.name}</Typography>
+      <Typography variant="h1">{theater.name}</Typography>
       <Typography variant="h6">Address: {theater.address}</Typography>
-      <Typography variant="body1">{theater.seatCount}</Typography>
+      <Typography variant="body1">
+        Seats Available: {theater.seatCount}
+      </Typography>
     </Box>
   );
 };

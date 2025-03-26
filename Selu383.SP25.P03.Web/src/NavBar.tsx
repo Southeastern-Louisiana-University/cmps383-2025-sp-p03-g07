@@ -8,7 +8,15 @@ function ResponsiveAppBar() {
   const navigate = useNavigate();
 
   return (
-    <AppBar position="static">
+    <AppBar
+      position="fixed"
+      sx={{
+        width: "100%",
+        top: 0, // Ensures it stays at the top
+        left: 0, // Ensures it is aligned to the left edge
+        zIndex: 1200, // Makes sure it appears on top of other content
+      }}
+    >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Typography
