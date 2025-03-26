@@ -149,4 +149,9 @@ namespace Selu383.SP25.P03.Api.Controllers
                 });
         }
     }
+<<<<<<<<< Temporary merge branch 1
 }
+//////////
+=========
+}
+>>>>>>>>> Temporary merge branch 2
