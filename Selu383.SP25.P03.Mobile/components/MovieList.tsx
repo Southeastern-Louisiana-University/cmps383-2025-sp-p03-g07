@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, ActivityIndicator } from 'react-native';
+import { View, Text, FlatList, ActivityIndicator, Image, StyleSheet } from 'react-native';
 import axios from 'axios';
 
 interface MovieDto {
@@ -7,7 +7,8 @@ interface MovieDto {
   title: string;
   genre: string;
   duration: number;
-  showtimes: ShowtimeDto[]; // Nested array of showtimes
+  showtimes: ShowtimeDto[];
+  imageUrl: string; // Add imageUrl field
 }
 
 interface ShowtimeDto {
@@ -53,6 +54,14 @@ const MovieList = () => {
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <View style={{ marginVertical: 10 }}>
+            {/* Display movie image */}
+            {item.imageUrl && (
+              <Image 
+                source={{ uri: item.imageUrl }} 
+                style={styles.movieImage} 
+              />
+            )}
+            
             <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{item.title}</Text>
             <Text>Genre: {item.genre}</Text>
             <Text>Duration: {item.duration} minutes</Text>
@@ -65,5 +74,14 @@ const MovieList = () => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  movieImage: {
+    width: 200,
+    height: 300,
+    borderRadius: 10,
+    marginBottom: 10,
+  },
+});
 
 export default MovieList;
