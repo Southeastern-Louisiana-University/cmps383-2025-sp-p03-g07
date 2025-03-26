@@ -42,7 +42,7 @@ function MovieCarousel() {
               component="img"
               alt="green iguana" // movie.name/movie.description
               height="140" //probably convert to viewport
-              image="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwallpaperaccess.com%2Ffull%2F3075771.jpg&f=1&nofb=1&ipt=d54eb8edb6f75cd23f2925a16ce644cda0b42794da1a07e0e0e0cb8023bbc7ea&ipo=images" // movie.imgURL
+              image={movie.ImageUrl} // movie.imgURL
             />
             <div className="movie-info">
               <Typography gutterBottom variant="h5" component="div">
