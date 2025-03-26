@@ -7,13 +7,16 @@ import {
   Select,
   MenuItem,
   SelectChangeEvent,
+  Button,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const TheaterList = () => {
   const [theaters, setTheaters] = useState<Theater[]>([]);
   const [selectedTheater, setSelectedTheater] = useState<number>(0);
   const [, setLoading] = useState(false);
-  const [visible, setVisible] = useState(false); // Controls visibility
+  const [, setVisible] = useState(false); // Controls visibility
+  const navigate = useNavigate();
 
   const fetchTheaters = async () => {
     setLoading(true);
@@ -36,32 +39,69 @@ const TheaterList = () => {
     setSelectedTheater(event.target.value as number); // Update selected theater ID
   };
 
+  const handleSubmit = () => {
+    if (selectedTheater) {
+      navigate(`/theaters/${selectedTheater}`);
+    }
+  };
+
   return (
-    <div>
+    <div
+      style={{
+        backgroundImage: `url(https://wallpaperbat.com/img/23094-cinema-hd-wallpaper-top-free-cinema-hd-background.jpg)`,
+        backgroundSize: "cover", // Ensures the background image covers the whole container
+        backgroundPosition: "center", // Centers the background image
+        backgroundRepeat: "no-repeat", // Prevents the background from repeating
+        width: "100vw", // Ensures the container takes up the full viewport width
+        height: "100vh", // Ensures the container takes up the full viewport height
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        color: "white",
+      }}
+    >
       <h1>Theaters</h1>
-      {visible && (
-        <div>
-          <h2>Please select your address or desired theater!</h2>
-          <FormControl fullWidth>
-            <InputLabel id="demo-simple-select-label">
-              Select Theater
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={selectedTheater}
-              onChange={handleChange}
-              label="Select Theater"
-            >
-              {theaters.map((theater) => (
-                <MenuItem key={theater.id} value={theater.id}>
-                  {theater.name} - {theater.address}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </div>
-      )}
+      <div>
+        <h2>Please select your theater!</h2>
+        <FormControl fullWidth>
+          <InputLabel id="select-theater-label" sx={{ color: "white" }}>
+            Select Theater
+          </InputLabel>
+          <Select
+            labelId="select-theater-label"
+            value={selectedTheater}
+            onChange={handleChange}
+            sx={{
+              color: "white",
+              backgroundColor: "rgba(255, 255, 255, 0.2)",
+              "& .MuiOutlinedInput-notchedOutline": {
+                borderColor: "white",
+              },
+              "&:hover .MuiOutlinedInput-notchedOutline": {
+                borderColor: "#ddd",
+              },
+              "& .MuiSvgIcon-root": {
+                color: "white",
+              },
+            }}
+          >
+            {theaters.map((theater) => (
+              <MenuItem key={theater.id} value={theater.id}>
+                {theater.name} - {theater.address}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+        <Button
+          variant="contained"
+          sx={{ marginTop: "10px" }}
+          disabled={!selectedTheater}
+          onClick={handleSubmit}
+        >
+          Submit
+        </Button>
+      </div>
     </div>
   );
 };
