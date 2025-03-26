@@ -96,20 +96,20 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
     gap: 16,
   },
   dropdownContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     marginVertical: 10,
+    padding: 10,
   },
   icon: {
     marginRight: 10,
   },
   tabContent: {
     flex: 1,
-    padding: 10,
+    backgroundColor: '#1e1e1e',
   },
   comingSoonText: {
     fontSize: 18,

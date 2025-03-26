@@ -8,7 +8,7 @@ interface MovieDto {
   genre: string;
   duration: number;
   showtimes: ShowtimeDto[];
-  imageUrl: string; // Add imageUrl field
+  imageUrl: string;
 }
 
 interface ShowtimeDto {
@@ -16,7 +16,7 @@ interface ShowtimeDto {
   time: string;
 }
 
-const API_URL = 'https://kingfish-actual-probably.ngrok-free.app/api/movies'; // Movies API endpoint
+const API_URL = 'https://kingfish-actual-probably.ngrok-free.app/api/movies';
 
 const MovieList = () => {
   const [movies, setMovies] = useState<MovieDto[]>([]);
@@ -25,10 +25,10 @@ const MovieList = () => {
 
   const fetchMovies = async () => {
     setLoading(true);
-    setError(null); 
+    setError(null);
     try {
       const response = await axios.get(API_URL);
-      setMovies(response.data); 
+      setMovies(response.data);
     } catch (error) {
       console.error('Error fetching movies:', error);
       setError('Error fetching movies. Please try again later.');
@@ -38,36 +38,33 @@ const MovieList = () => {
   };
 
   useEffect(() => {
-    fetchMovies(); // Fetch movies when the component mounts
+    fetchMovies();
   }, []);
 
   return (
     <View style={{ padding: 20 }}>
-      <Text style={{ fontSize: 24, fontWeight: 'bold' }}>Movies</Text>
-      
+      <Text style={styles.header}>Movies</Text>
+
       {loading && <ActivityIndicator size="large" color="#0000ff" />}
-      
-      {error && <Text style={{ color: 'red', marginTop: 10 }}>{error}</Text>} 
+      {error && <Text style={styles.errorText}>{error}</Text>}
 
       <FlatList
         data={movies}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
-          <View style={{ marginVertical: 10 }}>
-            {/* Display movie image */}
+          <View style={styles.movieContainer}>
             {item.imageUrl && (
-              <Image 
-                source={{ uri: item.imageUrl }} 
-                style={styles.movieImage} 
-              />
+              <Image source={{ uri: item.imageUrl }} style={styles.movieImage} />
             )}
-            
-            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{item.title}</Text>
-            <Text>Genre: {item.genre}</Text>
-            <Text>Duration: {item.duration} minutes</Text>
-            {item.showtimes.map((showtime) => (
-              <Text key={showtime.id}>- {showtime.time}</Text>
-            ))}
+
+            <View style={styles.movieTextContainer}>
+              <Text style={styles.movieTitle}>{item.title}</Text>
+              <Text style={styles.movieDetails}>Genre: {item.genre}</Text>
+              <Text style={styles.movieDetails}>Duration: {item.duration} minutes</Text>
+              {item.showtimes.map((showtime) => (
+                <Text style={styles.showtime} key={showtime.id}>- {showtime.time}</Text>
+              ))}
+            </View>
           </View>
         )}
       />
@@ -76,11 +73,43 @@ const MovieList = () => {
 };
 
 const styles = StyleSheet.create({
+  header: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: 'white', 
+  },
+  errorText: {
+    color: 'red',
+    marginTop: 10,
+  },
+  movieContainer: {
+    flexDirection: 'row', 
+    marginVertical: 10,
+    backgroundColor: '#121212', 
+    padding: 10,
+    borderRadius: 8,
+  },
   movieImage: {
-    width: 200,
-    height: 300,
+    width: 120, 
+    height: 180, 
     borderRadius: 10,
-    marginBottom: 10,
+    marginRight: 15, 
+  },
+  movieTextContainer: {
+    flex: 1, 
+    justifyContent: 'center', 
+  },
+  movieTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: 'white', 
+    marginBottom: 5,
+  },
+  movieDetails: {
+    color: 'white', 
+  },
+  showtime: {
+    color: 'white', 
   },
 });
 
