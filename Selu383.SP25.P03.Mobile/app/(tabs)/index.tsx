@@ -93,9 +93,9 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   rootContainer: {
     flex: 1,
-    paddingTop: 20, // Add padding at the top to replace the removed ThemedView
-    paddingHorizontal: 10, // Optional, for consistent horizontal padding
-    backgroundColor: '#1e1e1e', // Match the background color
+    paddingTop: 20, 
+    paddingHorizontal: 10, 
+    backgroundColor: '#1e1e1e', 
   },
   dropdownContainer: {
     flexDirection: 'row',
