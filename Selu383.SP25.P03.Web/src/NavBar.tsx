@@ -2,8 +2,11 @@ import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
+import { useNavigate } from "react-router-dom";
 
 function ResponsiveAppBar() {
+  const navigate = useNavigate();
+
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
@@ -23,7 +26,16 @@ function ResponsiveAppBar() {
               textDecoration: "none",
             }}
           >
-            HOME
+            <button
+              onClick={() => navigate("/")}
+              style={{
+                border: "none",
+                background: "transparent",
+                color: "inherit",
+              }}
+            >
+              HOME
+            </button>
           </Typography>
         </Toolbar>
       </Container>
