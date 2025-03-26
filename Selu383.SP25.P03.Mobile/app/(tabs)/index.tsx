@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
-import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import MovieList from '@/components/MovieList';
 import { Picker } from '@react-native-picker/picker';
@@ -61,48 +60,53 @@ export default function HomeScreen() {
   }, []);
 
   return (
-      <ThemedView style={styles.container}>
-        <ThemedText type="title">Select a Theater</ThemedText>
+    <View style={styles.rootContainer}>
+      {loading ? (
+        <Text>Loading theaters...</Text>
+      ) : error ? (
+        <Text style={{ color: 'red' }}>{error}</Text>
+      ) : (
+        <View style={styles.dropdownContainer}>
+          <Icon name="location-arrow" size={20} color="#000" style={styles.icon} />
+          <Picker
+            selectedValue={selectedTheater}
+            onValueChange={(itemValue) => setSelectedTheater(itemValue)}
+            style={styles.picker}
+          >
+            <Picker.Item label="Select a theater" value={null} style={{ color: 'white' }} />
+            {theaters.map((theater) => (
+              <Picker.Item key={theater.id} label={theater.name} value={theater.id} />
+            ))}
+          </Picker>
+        </View>
+      )}
 
-        {loading ? (
-          <Text>Loading theaters...</Text>
-        ) : error ? (
-          <Text style={{ color: 'red' }}>{error}</Text>
-        ) : (
-          <View style={styles.dropdownContainer}>
-            <Icon name="location-arrow" size={20} color="#000" style={styles.icon} />
-            <Picker
-              selectedValue={selectedTheater}
-              onValueChange={(itemValue) => setSelectedTheater(itemValue)}
-              style={{ height: 50, width: '80%' }}
-            >
-              <Picker.Item label="Select a theater" value={null} />
-              {theaters.map((theater) => (
-                <Picker.Item key={theater.id} label={theater.name} value={theater.id} />
-              ))}
-            </Picker>
-          </View>
-        )}
-
-        {/* Tab Navigation below the dropdown */}
-        <Tab.Navigator>
-          <Tab.Screen name="Now Showing" component={NowShowingScreen} />
-          <Tab.Screen name="Coming Soon" component={ComingSoonScreen} />
-        </Tab.Navigator>
-      </ThemedView>
+      {/* Tab Navigation below the dropdown */}
+      <Tab.Navigator>
+        <Tab.Screen name="Now Showing" component={NowShowingScreen} />
+        <Tab.Screen name="Coming Soon" component={ComingSoonScreen} />
+      </Tab.Navigator>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  rootContainer: {
     flex: 1,
-    gap: 16,
+    paddingTop: 20, // Add padding at the top to replace the removed ThemedView
+    paddingHorizontal: 10, // Optional, for consistent horizontal padding
+    backgroundColor: '#1e1e1e', // Match the background color
   },
   dropdownContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: 10,
-    padding: 10,
+    marginVertical: 0,
+    paddingVertical: 0,
+  },
+  picker: {
+    height: 50,
+    width: '80%',
+    color: 'white',
   },
   icon: {
     marginRight: 10,
