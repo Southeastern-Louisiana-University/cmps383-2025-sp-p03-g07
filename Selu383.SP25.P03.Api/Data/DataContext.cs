@@ -5,7 +5,6 @@ using Selu383.SP25.P03.Api.Features.Users;
 using Selu383.SP25.P03.Api.Features.Theaters;
 using Selu383.SP25.P03.Api.Features.Movies;
 using Selu383.SP25.P03.Api.Features.Tickets;
-using System.Net.Sockets;
 
 namespace Selu383.SP25.P03.Api.Data
 {
@@ -24,7 +23,6 @@ namespace Selu383.SP25.P03.Api.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
             builder.Entity<UserRole>().HasKey(x => new { x.UserId, x.RoleId });
             builder.Entity<User>()
                 .HasMany(e => e.UserRoles)
@@ -38,6 +36,10 @@ namespace Selu383.SP25.P03.Api.Data
                 .HasForeignKey(x => x.RoleId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<Ticket>()
+                .HasIndex(t => new { t.MovieScheduleId, t.SeatNumber })
+                .IsUnique();
         }
     }
 }
+

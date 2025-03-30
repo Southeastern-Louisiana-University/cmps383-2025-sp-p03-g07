@@ -11,10 +11,20 @@ namespace Selu383.SP25.P03.Api.Features.Tickets
         public int MovieScheduleId { get; set; }
         [ForeignKey("MovieScheduleId")]
         public MovieSchedule? MovieSchedule { get; set; }
-        [Required]
-        public required string CustomerName { get; set; }
+        public string? CustomerName { get; set; }
         [Required]
         public required string SeatNumber { get; set; }
-        public DateTime PurchaseTime { get; set; }
+        [Required]
+        public required string SeatType { get; set; }
+        public DateTime? PurchaseTime { get; set; }
+        public bool IsPurchased { get; set; }
+        [Required]
+        public string ConfirmationCode { get; set; } = "";
+        [Required]
+        public string MovieName { get; set; } = "";
+        [Required]
+        public string TheaterLocation { get; set; } = "";
+        public DateTime? ShowTime { get; set; }
     }
 }
+

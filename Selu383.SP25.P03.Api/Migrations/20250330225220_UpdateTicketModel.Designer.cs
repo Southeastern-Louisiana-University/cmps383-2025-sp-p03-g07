@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Selu383.SP25.P03.Api.Data;
 
@@ -11,9 +12,11 @@ using Selu383.SP25.P03.Api.Data;
 namespace Selu383.SP25.P03.Api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20250330225220_UpdateTicketModel")]
+    partial class UpdateTicketModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -224,19 +227,11 @@ namespace Selu383.SP25.P03.Api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TicketId"));
 
-                    b.Property<string>("ConfirmationCode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("CustomerName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsPurchased")
                         .HasColumnType("bit");
-
-                    b.Property<string>("MovieName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("MovieScheduleId")
                         .HasColumnType("int");
@@ -249,13 +244,6 @@ namespace Selu383.SP25.P03.Api.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("SeatType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("ShowTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("TheaterLocation")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

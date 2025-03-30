@@ -35,7 +35,6 @@ namespace Selu383.SP25.P03.Api
                 options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
                 options.User.RequireUniqueEmail = false;
             });
-
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("AllowAll",
@@ -46,8 +45,6 @@ namespace Selu383.SP25.P03.Api
                               .AllowAnyHeader();
                     });
             });
-
-
             builder.Services.ConfigureApplicationCookie(options =>
             {
                 options.Cookie.HttpOnly = true;
@@ -72,6 +69,7 @@ namespace Selu383.SP25.P03.Api
                 SeedTheaters.Initialize(scope.ServiceProvider);
                 SeedMovies.Initialize(scope.ServiceProvider);
                 SeedMovieSchedules.Initialize(scope.ServiceProvider);
+                SeedTickets.Initialize(scope.ServiceProvider);
                 await SeedRoles.Initialize(scope.ServiceProvider);
                 await SeedUsers.Initialize(scope.ServiceProvider);
             }
@@ -81,9 +79,7 @@ namespace Selu383.SP25.P03.Api
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
             app.UseCors("AllowAll");
-
             app.UseHttpsRedirection();
             app.UseAuthentication();
             app.UseRouting().UseAuthorization().UseEndpoints(x => { x.MapControllers(); });
@@ -100,3 +96,4 @@ namespace Selu383.SP25.P03.Api
         }
     }
 }
+
