@@ -4,3 +4,17 @@ export interface Theater {
   address: string;
   seatCount: number; 
 }
+
+export interface Showtime {
+  showtime: string;
+};
+
+export interface Movie {
+  id: number;
+  title: string;
+  description: string;
+  genre: string;
+  runtimeMinutes: number;
+  showtimes: Showtime[];
+  ImageUrl: string;
+};

@@ -1,21 +1,10 @@
-import { useEffect, useState } from "react";
-import { Card, CardMedia, Typography } from "@mui/material";
-
-type Showtime = {
-  showtime: string;
-};
-
-type Movie = {
-  id: number;
-  title: string;
-  description: string;
-  genre: string;
-  runtimeMinutes: number;
-  showtimes: Showtime[];
-};
+import { useEffect, useRef, useState } from "react";
+import { Box, Button, Card, CardMedia, Typography } from "@mui/material";
+import { Movie } from "../types";
 
 function MovieCarousel() {
   const [movies, setMovies] = useState<Movie[]>([]);
+  const carouselRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     fetch("https://localhost:7027/api/movies")
@@ -23,41 +12,65 @@ function MovieCarousel() {
       .then((data) => setMovies(data))
       .catch((err) => console.error("Failed to fetch movies:", err));
   }, []);
-  const scroll = (scrollOffset: number) => {
-    const container = document.getElementById("carousel");
-    if (container) {
-      container.scrollBy({ left: scrollOffset, behavior: "smooth" });
+
+  const scroll = (offset: number) => {
+    if (carouselRef.current) {
+      carouselRef.current.scrollBy({ left: offset, behavior: "smooth" });
     }
   };
-  return (
-    <div className="carousel-wrapper">
-      <button className="carousel-btn left" onClick={() => scroll(-300)}>
-        &#8592;
-      </button>
 
-      <div className="carousel-container" id="carousel">
+  return (
+    <Box
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      minHeight="100vh"
+      bgcolor="#f5f5f5"
+      p={4}
+    >
+      <Button variant="contained" onClick={() => scroll(-300)} sx={{ mr: 2 }}>
+        &#8592;
+      </Button>
+
+      <Box
+        ref={carouselRef}
+        sx={{
+          display: "flex",
+          overflowX: "auto",
+          scrollBehavior: "smooth",
+          width: "100%",
+          p: 2,
+          gap: 2,
+          "&::-webkit-scrollbar": { display: "none" },
+        }}
+      >
         {movies.map((movie) => (
-          <Card key={movie.id} variant="outlined">
+          <Card
+            key={movie.id}
+            variant="outlined"
+            sx={{ minWidth: 500, maxWidth: 800 }}
+          >
             <CardMedia
               component="img"
-              alt="green iguana" // movie.name/movie.description
-              height="140" //probably convert to viewport
-              image={movie.ImageUrl} // movie.imgURL
+              height="600"
+              width="800"
+              image={movie.ImageUrl}
+              alt={movie.title}
             />
-            <div className="movie-info">
-              <Typography gutterBottom variant="h5" component="div">
+            <Box p={2}>
+              <Typography variant="h5" gutterBottom>
                 {movie.title}
               </Typography>
-              <p>{movie.description}</p>
-              <p>
+              <Typography variant="body2">{movie.description}</Typography>
+              <Typography variant="body2">
                 <strong>Genre:</strong> {movie.genre}
-              </p>
-              <p>
+              </Typography>
+              <Typography variant="body2">
                 <strong>Runtime:</strong> {movie.runtimeMinutes} min
-              </p>
-              <p>
+              </Typography>
+              <Typography variant="body2">
                 <strong>Showtimes:</strong>
-              </p>
+              </Typography>
               <ul>
                 {movie.showtimes.map((st, index) => (
                   <li key={index}>
@@ -65,14 +78,15 @@ function MovieCarousel() {
                   </li>
                 ))}
               </ul>
-            </div>
+            </Box>
           </Card>
         ))}
-      </div>
-      <button className="carousel-btn right" onClick={() => scroll(300)}>
+      </Box>
+
+      <Button variant="contained" onClick={() => scroll(300)} sx={{ ml: 2 }}>
         &#8594;
-      </button>
-    </div>
+      </Button>
+    </Box>
   );
 }
 
