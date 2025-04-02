@@ -16,5 +16,5 @@ export interface Movie {
   genre: string;
   runtimeMinutes: number;
   showtimes: Showtime[];
-  ImageUrl: string;
+  imageUrl: string;
 };

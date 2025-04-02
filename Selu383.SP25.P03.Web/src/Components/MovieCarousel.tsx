@@ -25,10 +25,15 @@ function MovieCarousel() {
       alignItems="center"
       justifyContent="center"
       minHeight="100vh"
-      bgcolor="#f5f5f5"
+      bgcolor="#00000f"
+      borderRadius="15px"
       p={4}
     >
-      <Button variant="contained" onClick={() => scroll(-300)} sx={{ mr: 2 }}>
+      <Button
+        variant="contained"
+        onClick={() => scroll(-300)}
+        sx={{ mr: 2, backgroundColor: "#d8b4fe", color: "black" }}
+      >
         &#8592;
       </Button>
 
@@ -54,7 +59,7 @@ function MovieCarousel() {
               component="img"
               height="600"
               width="800"
-              image={movie.ImageUrl}
+              image={movie.imageUrl}
               alt={movie.title}
             />
             <Box p={2}>
@@ -83,7 +88,11 @@ function MovieCarousel() {
         ))}
       </Box>
 
-      <Button variant="contained" onClick={() => scroll(300)} sx={{ ml: 2 }}>
+      <Button
+        variant="contained"
+        onClick={() => scroll(300)}
+        sx={{ ml: 2, backgroundColor: "#d8b4fe", color: "black" }}
+      >
         &#8594;
       </Button>
     </Box>
