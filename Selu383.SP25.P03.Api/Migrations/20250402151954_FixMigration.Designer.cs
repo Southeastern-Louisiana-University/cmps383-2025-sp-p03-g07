@@ -12,8 +12,8 @@ using Selu383.SP25.P03.Api.Data;
 namespace Selu383.SP25.P03.Api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250402040803_RatingsMigration")]
-    partial class RatingsMigration
+    [Migration("20250402151954_FixMigration")]
+    partial class FixMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
