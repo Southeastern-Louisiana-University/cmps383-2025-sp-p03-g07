@@ -24,10 +24,11 @@ function MovieCarousel() {
       display="flex"
       alignItems="center"
       justifyContent="center"
-      minHeight="100vh"
       bgcolor="#00000f"
       borderRadius="15px"
       p={4}
+      mt={4}
+      sx={{ width: "100vw", overflow: "hidden" }}
     >
       <Button
         variant="contained"
@@ -53,12 +54,11 @@ function MovieCarousel() {
           <Card
             key={movie.id}
             variant="outlined"
-            sx={{ minWidth: 500, maxWidth: 800 }}
+            sx={{ minWidth: 400, maxWidth: 500 }}
           >
             <CardMedia
               component="img"
-              height="600"
-              width="800"
+              height="350px"
               image={movie.imageUrl}
               alt={movie.title}
             />

@@ -6,7 +6,6 @@ import {
   Select,
   MenuItem,
   SelectChangeEvent,
-  Button,
   Box,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
@@ -50,13 +49,14 @@ const TheaterList = () => {
     <div>
       <Box sx={{ minWidth: 120 }}>
         <FormControl fullWidth>
-          <InputLabel id="select-theater-label" sx={{ color: "white" }}>
+          <InputLabel id="select-theater-label" sx={{ color: "#00000f" }}>
             Select Theater
           </InputLabel>
           <Select
             labelId="select-theater-label"
             value={selectedTheater}
             onChange={handleChange}
+            onClick={handleSubmit}
             sx={{
               color: "white",
               backgroundColor: "rgba(255, 255, 255, 0.2)",
@@ -78,14 +78,6 @@ const TheaterList = () => {
             ))}
           </Select>
         </FormControl>
-        <Button
-          variant="contained"
-          sx={{ marginTop: "10px" }}
-          disabled={!selectedTheater}
-          onClick={handleSubmit}
-        >
-          Submit
-        </Button>
       </Box>
     </div>
   );

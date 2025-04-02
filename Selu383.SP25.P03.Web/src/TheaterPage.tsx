@@ -31,7 +31,7 @@ const TheaterPage = () => {
   if (!theater) return <Typography>No theater found.</Typography>;
 
   return (
-    <Box sx={{ padding: 3, textAlign: "center" }}>
+    <Box sx={{ padding: 3, textAlign: "center", margin: 7 }}>
       <Typography variant="h1">{theater.name}</Typography>
       <Typography variant="h6">Address: {theater.address}</Typography>
       <Typography variant="body1">

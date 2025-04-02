@@ -16,7 +16,8 @@ function ResponsiveAppBar() {
         width: "100%",
         top: 0, // Ensures it stays at the top
         left: 0, // Ensures it is aligned to the left edge
-        zIndex: 1200, // Makes sure it appears on top of other content
+        zIndex: 1000, // Makes sure it appears on top of other content
+        height: "60px",
       }}
     >
       <Container maxWidth="xl">
@@ -47,23 +48,7 @@ function ResponsiveAppBar() {
               HOME
             </Button>
           </Typography>
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
-            sx={{
-              mr: 2,
-              display: { xs: "none", md: "flex" },
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
-            }}
-          >
-            <TheaterLocation />
-          </Typography>
+          <TheaterLocation />
         </Toolbar>
       </Container>
     </AppBar>
