@@ -17,4 +17,5 @@ export interface Movie {
   runtimeMinutes: number;
   showtimes: Showtime[];
   imageUrl: string;
+  rating: string;
 };

@@ -3,6 +3,8 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useNavigate } from "react-router-dom";
+import { Button } from "@mui/material";
+import TheaterLocation from "./TheaterLocation";
 
 function ResponsiveAppBar() {
   const navigate = useNavigate();
@@ -34,16 +36,33 @@ function ResponsiveAppBar() {
               textDecoration: "none",
             }}
           >
-            <button
-              onClick={() => navigate("/")}
+            <Button
+              onClick={() => navigate("/theaters")}
               style={{
-                border: "none",
-                background: "transparent",
+                border: "solid",
+                background: "#00000f",
                 color: "inherit",
               }}
             >
               HOME
-            </button>
+            </Button>
+          </Typography>
+          <Typography
+            variant="h6"
+            noWrap
+            component="a"
+            href="#app-bar-with-responsive-menu"
+            sx={{
+              mr: 2,
+              display: { xs: "none", md: "flex" },
+              fontFamily: "monospace",
+              fontWeight: 700,
+              letterSpacing: ".3rem",
+              color: "inherit",
+              textDecoration: "none",
+            }}
+          >
+            <TheaterLocation />
           </Typography>
         </Toolbar>
       </Container>

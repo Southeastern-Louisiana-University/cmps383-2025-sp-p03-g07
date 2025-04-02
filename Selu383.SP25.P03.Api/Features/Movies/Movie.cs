@@ -14,5 +14,6 @@ namespace Selu383.SP25.P03.Api.Features.Movies
         public ICollection<MovieShowtime> Showtimes { get; set; } = new List<MovieShowtime>();
 
         public string? ImageUrl { get; set; }
+        public string? Rating { get; set; }
     }
 }

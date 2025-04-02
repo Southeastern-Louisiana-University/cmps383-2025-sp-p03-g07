@@ -74,6 +74,9 @@ function MovieCarousel() {
                 <strong>Runtime:</strong> {movie.runtimeMinutes} min
               </Typography>
               <Typography variant="body2">
+                <strong>Rating:</strong> {movie.rating}
+              </Typography>
+              <Typography variant="body2">
                 <strong>Showtimes:</strong>
               </Typography>
               <ul>

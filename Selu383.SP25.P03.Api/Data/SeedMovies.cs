@@ -28,7 +28,8 @@ namespace Selu383.SP25.P03.Api.Data
                         {
                             new MovieShowtime { Showtime = DateTime.Now.AddHours(1) },
                             new MovieShowtime { Showtime = DateTime.Now.AddHours(4) }
-                        }
+                        },
+                        Rating = "PG-13"
                     },
                     new Movie
                     {
@@ -40,7 +41,8 @@ namespace Selu383.SP25.P03.Api.Data
                         Showtimes = new List<MovieShowtime>
                         {
                             new MovieShowtime { Showtime = DateTime.Now.AddHours(2) }
-                        }
+                        },
+                        Rating = "PG-13"
                     },
                     new Movie
                     {
@@ -52,11 +54,12 @@ namespace Selu383.SP25.P03.Api.Data
                         Showtimes = new List<MovieShowtime>
                         {
                             new MovieShowtime { Showtime = DateTime.Now.AddHours(3) }
-                        }
+                        },
+                        Rating = "PG-13"
                     },
                     new Movie
                     {
-                        Title = "Alien Covenant",
+                        Title = "Alien: Covenant",
                         Description = "Aliens taking over",
                         Genre = "Horror",
                         RuntimeMinutes = 115,
@@ -64,7 +67,8 @@ namespace Selu383.SP25.P03.Api.Data
                         Showtimes = new List<MovieShowtime>
                         {
                             new MovieShowtime { Showtime = DateTime.Now.AddHours(5) }
-                        }
+                        },
+                        Rating = "R"
                     },
                     new Movie
                     {
@@ -76,7 +80,8 @@ namespace Selu383.SP25.P03.Api.Data
                         Showtimes = new List<MovieShowtime>
                         {
                             new MovieShowtime { Showtime = DateTime.Now.AddHours(6) }
-                        }
+                        },
+                        Rating = "R"
                     },
                     new Movie
                     {
@@ -88,7 +93,34 @@ namespace Selu383.SP25.P03.Api.Data
                         Showtimes = new List<MovieShowtime>
                         {
                             new MovieShowtime { Showtime = DateTime.Now.AddHours(7) }
-                        }
+                        },
+                        Rating = "TV-PG"
+                    },
+                    new Movie
+                    {
+                        Title = "The Evil Dead",
+                        Description = "Five college students vacationing in an isolated cabin in the woods, where they find an audio tape that, when played, releases a legion of demons and spirits. Four members of the group suffer from demonic possession, forcing the fifth member, Ash Williams (Campbell), to survive an onslaught of increasingly gory mayhem. ",
+                        Genre = "Horror",
+                        RuntimeMinutes = 85,
+                        ImageUrl = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.themoviedb.org%2Ft%2Fp%2Foriginal%2FuJ2gzKLY8ZFBfn5SvsnFs8BnPmg.jpg&f=1&nofb=1&ipt=44496198776dee73e673f6a053d664b6d4e499fc31752c01b3f97d1e311d7422&ipo=images",
+                        Showtimes = new List<MovieShowtime>
+                        {
+                            new MovieShowtime { Showtime = DateTime.Now.AddHours(8) }
+                        },
+                        Rating = "NC-17"
+                    },
+                    new Movie
+                    {
+                        Title = "The Wizard Of Oz",
+                        Description = "Young Dorothy Gale and her dog Toto are swept away by a tornado from their Kansas farm to the magical Land of Oz and embark on a quest with three new friends to see the Wizard, who can return her to her home and fulfill the others' wishes.",
+                        Genre = "Fantasy",
+                        RuntimeMinutes = 102,
+                        ImageUrl = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.themoviedb.org%2Ft%2Fp%2Foriginal%2F7gGXeoGycQUUokMfgnwmsqw5pKo.jpg&f=1&nofb=1&ipt=087bbc968110b5dcae6015c3ffdedfa1fdb111f5b330184649949ff3d8416c1d&ipo=images",
+                        Showtimes = new List<MovieShowtime>
+                        {
+                            new MovieShowtime { Showtime = DateTime.Now.AddHours(9) }
+                        },
+                        Rating = "G"
                     },
                 };
                 context.Movies.AddRange(movies);
