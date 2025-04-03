@@ -3,7 +3,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useNavigate } from "react-router-dom";
-import { Button } from "@mui/material";
+import { Button, Icon } from "@mui/material";
 import TheaterLocation from "./TheaterLocation";
 
 function ResponsiveAppBar() {
@@ -22,6 +22,23 @@ function ResponsiveAppBar() {
     >
       <Container maxWidth="xl">
         <Toolbar disableGutters>
+          <Typography
+            variant="h6"
+            noWrap
+            component="a"
+            href="#app-bar-with-responsive-menu"
+            sx={{
+              mr: 2,
+              display: { xs: "none", md: "flex" },
+              fontFamily: "monospace",
+              fontWeight: 700,
+              letterSpacing: ".3rem",
+              color: "inherit",
+              textDecoration: "none",
+            }}
+          >
+            <Icon onClick={() => navigate("/login")}>Logo</Icon>
+          </Typography>
           <Typography
             variant="h6"
             noWrap
