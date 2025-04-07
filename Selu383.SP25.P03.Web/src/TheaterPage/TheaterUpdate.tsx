@@ -1,4 +1,3 @@
-// src/TheaterPostForm.tsx
 import React, { useState } from "react";
 import {
   TextField,
@@ -11,38 +10,40 @@ import {
 import axios from "axios";
 import { Theater } from "../types";
 
-const TheaterPostForm: React.FC = () => {
+const TheaterUpdateForm: React.FC = () => {
   const [form, setForm] = useState<Theater>({
-    id: 0, // Default id value
+    id: 0,
     name: "",
     address: "",
     seatCount: 0,
   });
 
+  const [id, setId] = useState("");
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
     setForm({
       ...form,
-      [e.target.name]:
-        e.target.name === "seatCount" ? Number(e.target.value) : e.target.value,
+      [name]: name === "seatCount" ? Number(value) : value,
     });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     try {
-      const response = await axios.post(
-        "https://localhost:7027/api/theaters",
+      const response = await axios.put(
+        `https://localhost:7027/api/theaters/${id}`,
         form
       );
-      setSuccess("Theater post created successfully!");
+      setSuccess("Theater updated successfully!");
       setError("");
       console.log(response.data);
     } catch (err) {
       console.error(err);
-      setError("Failed to post. Please try again.");
+      setError("Failed to update. Please make sure the ID exists.");
       setSuccess("");
     }
   };
@@ -55,12 +56,19 @@ const TheaterPostForm: React.FC = () => {
         sx={{ mt: 4, display: "flex", flexDirection: "column", gap: 2 }}
       >
         <Typography variant="h5" textAlign="center">
-          Create a New Theater Location
+          Update Existing Theater
         </Typography>
 
         {success && <Alert severity="success">{success}</Alert>}
         {error && <Alert severity="error">{error}</Alert>}
 
+        <TextField
+          label="Theater ID"
+          type="number"
+          value={id}
+          onChange={(e) => setId(e.target.value)}
+          required
+        />
         <TextField
           label="Name"
           name="name"
@@ -80,18 +88,18 @@ const TheaterPostForm: React.FC = () => {
         <TextField
           label="Seat Count"
           name="seatCount"
+          type="number"
           value={form.seatCount}
           onChange={handleChange}
           required
-          InputLabelProps={{ shrink: true }}
         />
 
-        <Button type="submit" variant="contained">
-          Submit
+        <Button type="submit" variant="contained" color="primary">
+          Update Theater
         </Button>
       </Box>
     </Container>
   );
 };
 
-export default TheaterPostForm;
+export default TheaterUpdateForm;

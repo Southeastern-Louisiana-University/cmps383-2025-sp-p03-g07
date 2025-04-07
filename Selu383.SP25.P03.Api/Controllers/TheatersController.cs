@@ -45,7 +45,7 @@ namespace Selu383.SP25.P03.Api.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = UserRoleNames.Admin)]
+        // [Authorize(Roles = UserRoleNames.Admin)]
         public ActionResult<TheaterDto> CreateTheater(TheaterDto dto)
         {
             if (IsInvalid(dto))
@@ -71,7 +71,7 @@ namespace Selu383.SP25.P03.Api.Controllers
 
         [HttpPut]
         [Route("{id}")]
-        [Authorize]
+        // [Authorize]
         public async Task<ActionResult<TheaterDto>> UpdateTheater(int id, TheaterDto dto)
         {
             if (IsInvalid(dto))
@@ -111,7 +111,7 @@ namespace Selu383.SP25.P03.Api.Controllers
 
         [HttpDelete]
         [Route("{id}")]
-        [Authorize(Roles = UserRoleNames.Admin)]
+        // [Authorize(Roles = UserRoleNames.Admin)]
         public ActionResult DeleteTheater(int id)
         {
             var theater = theaters.FirstOrDefault(x => x.Id == id);
