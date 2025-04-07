@@ -19,3 +19,17 @@ export interface Movie {
   imageUrl: string;
   rating: string;
 };
+
+export interface AuthenticationPost {
+  username: string;
+  password: string;
+}
+
+export interface AuthenticationFetch {
+  token: string;
+  user: {
+    id: string;
+    username: string;
+    // Add other user fields if needed
+  };
+}

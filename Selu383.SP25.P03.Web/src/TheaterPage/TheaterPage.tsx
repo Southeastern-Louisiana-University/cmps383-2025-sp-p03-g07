@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { Theater } from "./types";
+import { Theater } from "../types";
 import { CircularProgress, Typography, Box } from "@mui/material";
-import MovieCarousel from "./Components/MovieCarousel";
+import MovieCarousel from "../Components/MovieCarousel";
 
 const TheaterPage = () => {
   const { id } = useParams<{ id: string }>();
