@@ -8,7 +8,7 @@ using Selu383.SP25.P03.Api.Features.Users;
 
 namespace Selu383.SP25.P03.Api.Controllers
 {
-    [Route("api/theaters")]
+    [Route("api/[controller]")]
     [ApiController]
     public class TheatersController : ControllerBase
     {
