@@ -5,7 +5,7 @@
 namespace Selu383.SP25.P03.Api.Migrations
 {
     /// <inheritdoc />
-    public partial class MigrationName : Migration
+    public partial class new1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

@@ -12,8 +12,8 @@ using Selu383.SP25.P03.Api.Data;
 namespace Selu383.SP25.P03.Api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250327004016_fixdb2")]
-    partial class fixdb2
+    [Migration("20250409160955_new")]
+    partial class @new
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -130,6 +130,9 @@ namespace Selu383.SP25.P03.Api.Migrations
                     b.Property<string>("ImageUrl")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Rating")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("RuntimeMinutes")
                         .HasColumnType("int");
 
@@ -137,35 +140,12 @@ namespace Selu383.SP25.P03.Api.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("TrailerUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.ToTable("Movies");
-                });
-
-            modelBuilder.Entity("Selu383.SP25.P03.Api.Features.Movies.MovieSchedule", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("MovieId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Showtime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("TheaterId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MovieId");
-
-                    b.HasIndex("TheaterId");
-
-                    b.ToTable("MovieSchedules");
                 });
 
             modelBuilder.Entity("Selu383.SP25.P03.Api.Features.Movies.MovieShowtime", b =>
@@ -181,6 +161,9 @@ namespace Selu383.SP25.P03.Api.Migrations
 
                     b.Property<DateTime>("Showtime")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("TheaterId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -242,8 +225,6 @@ namespace Selu383.SP25.P03.Api.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("TicketId");
-
-                    b.HasIndex("MovieScheduleId");
 
                     b.ToTable("Tickets");
                 });
@@ -397,25 +378,6 @@ namespace Selu383.SP25.P03.Api.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Selu383.SP25.P03.Api.Features.Movies.MovieSchedule", b =>
-                {
-                    b.HasOne("Selu383.SP25.P03.Api.Features.Movies.Movie", "Movie")
-                        .WithMany()
-                        .HasForeignKey("MovieId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Selu383.SP25.P03.Api.Features.Theaters.Theater", "Theater")
-                        .WithMany()
-                        .HasForeignKey("TheaterId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Movie");
-
-                    b.Navigation("Theater");
-                });
-
             modelBuilder.Entity("Selu383.SP25.P03.Api.Features.Movies.MovieShowtime", b =>
                 {
                     b.HasOne("Selu383.SP25.P03.Api.Features.Movies.Movie", "Movie")
@@ -434,17 +396,6 @@ namespace Selu383.SP25.P03.Api.Migrations
                         .HasForeignKey("ManagerId");
 
                     b.Navigation("Manager");
-                });
-
-            modelBuilder.Entity("Selu383.SP25.P03.Api.Features.Tickets.Ticket", b =>
-                {
-                    b.HasOne("Selu383.SP25.P03.Api.Features.Movies.MovieSchedule", "MovieSchedule")
-                        .WithMany()
-                        .HasForeignKey("MovieScheduleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("MovieSchedule");
                 });
 
             modelBuilder.Entity("Selu383.SP25.P03.Api.Features.Users.UserRole", b =>

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Theater } from "./types"; // Import the Theater type
+import { Theater } from "../types"; // Import the Theater type
 import {
   FormControl,
   InputLabel,
