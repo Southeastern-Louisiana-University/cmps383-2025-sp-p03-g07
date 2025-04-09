@@ -82,7 +82,7 @@ const MovieTableWithCRUD: React.FC = () => {
 
   const handleDelete = async (id: number) => {
     if (window.confirm("Are you sure you want to delete this movie?")) {
-      await axios.delete(`https://localhost:7027/api/movies/${id}`);
+      await axios.delete(`https://cmps383-sp25-p03-g07.azurewebsites.net/api/movies/${id}`);
       fetchMovies();
     }
   };

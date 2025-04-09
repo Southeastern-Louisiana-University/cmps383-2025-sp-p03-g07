@@ -39,7 +39,7 @@ const LoginForm: React.FC = () => {
 
     try {
       const response = await axios.post<AuthenticationFetch>(
-        "https://localhost:7027/api/authentication/login",
+        "https://cmps383-sp25-p03-g07.azurewebsites.net/api/authentication/login",
         credentials
       );
 

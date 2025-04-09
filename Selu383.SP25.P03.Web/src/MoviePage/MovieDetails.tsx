@@ -10,7 +10,7 @@ function MovieDetail() {
   const navigate = useNavigate(); // Hook for navigation
 
   useEffect(() => {
-    fetch(`https://localhost:7027/api/movies/${id}`)
+    fetch(`https://cmps383-sp25-p03-g07.azurewebsites.net/api/movies/${id}`)
       .then((res) => res.json())
       .then((data) => setMovie(data))
       .catch((err) => console.error("Failed to fetch movie:", err));
