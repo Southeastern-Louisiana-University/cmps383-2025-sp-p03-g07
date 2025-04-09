@@ -81,10 +81,10 @@ namespace Selu383.SP25.P03.Api.Controllers
 
             var currentUser = await userManager.GetUserAsync(User);
 
-            if (!User.IsInRole(UserRoleNames.Admin) && currentUser.Id != dto.ManagerId)
-            {
-                return Forbid("You are not allowed to do that!");
-            }
+            //if (!User.IsInRole(UserRoleNames.Admin) && currentUser.Id != dto.ManagerId)
+            //{
+            //    return Forbid("You are not allowed to do that!");
+            //}
 
             var theater = theaters.FirstOrDefault(x => x.Id == id);
             if (theater == null)

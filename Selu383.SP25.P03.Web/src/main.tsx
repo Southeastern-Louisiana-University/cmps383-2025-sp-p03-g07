@@ -11,7 +11,7 @@ import TheaterDetails from "./TheaterPage/TheaterDetails.tsx";
 import SeatCount from "./Components/SeatCount.tsx";
 import MovieCarousel from "./Components/MovieCarousel.tsx";
 import PurchaseTicket from "./Components/PurchaseTicket.tsx";
-import Dashboard from "./dashboard.tsx";
+import Dashboard from "./Dashboard.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <Router>
