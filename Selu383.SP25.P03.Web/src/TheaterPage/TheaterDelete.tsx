@@ -18,7 +18,7 @@ const TheaterDeleteForm: React.FC = () => {
   const handleDelete = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.delete(`https://localhost:7027/api/theaters/${id}`);
+      await axios.delete(`https://cmps383-sp25-p03-g07.azurewebsites.net/api/theaters/${id}`);
       setSuccess("Theater deleted successfully.");
       setError("");
     } catch (err) {

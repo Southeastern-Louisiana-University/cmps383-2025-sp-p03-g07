@@ -50,7 +50,7 @@ const MovieTableWithCRUD: React.FC = () => {
   const [editingMovie, setEditingMovie] = useState<Movie>(defaultMovie);
 
   const fetchMovies = async () => {
-    const res = await axios.get<Movie[]>("https://localhost:7027/api/movies");
+    const res = await axios.get<Movie[]>("https://cmps383-sp25-p03-g07.azurewebsites.net/api/movies");
     setMovies(res.data);
   };
 
@@ -68,10 +68,10 @@ const MovieTableWithCRUD: React.FC = () => {
 
   const handleSave = async () => {
     if (editingMovie.id === 0) {
-      await axios.post("https://localhost:7027/api/movies", editingMovie);
+      await axios.post("https://cmps383-sp25-p03-g07.azurewebsites.net/api/movies", editingMovie);
     } else {
       await axios.put(
-        `https://localhost:7027/api/movies/${editingMovie.id}`,
+        `https://cmps383-sp25-p03-g07.azurewebsites.net/api/movies/${editingMovie.id}`,
         editingMovie
       );
     }

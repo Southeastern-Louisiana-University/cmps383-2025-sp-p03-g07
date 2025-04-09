@@ -35,7 +35,7 @@ const TheaterUpdateForm: React.FC = () => {
 
     try {
       const response = await axios.put(
-        `https://localhost:7027/api/theaters/${id}`,
+        `https://cmps383-sp25-p03-g07.azurewebsites.net/api/theaters/${id}`,
         form
       );
       setSuccess("Theater updated successfully!");
