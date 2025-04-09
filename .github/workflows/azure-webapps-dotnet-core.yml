@@ -44,26 +44,6 @@ jobs:
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
-      - name: Set up Node.js (for Vite/React build)
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-
-      - name: Clean node_modules and lock file
-        run: |
-          cd Selu383.SP25.P03.Web
-          rm -rf node_modules package-lock.json || true
-
-      - name: Install frontend dependencies
-        run: |
-          cd Selu383.SP25.P03.Web
-          npm install
-
-      - name: Build frontend
-        run: |
-          cd Selu383.SP25.P03.Web
-          npm run build
-
       - name: Set up dependency caching for faster builds
         uses: actions/cache@v3
         with:
