@@ -1,16 +1,15 @@
 import "./App.css";
 import { useNavigate } from "react-router-dom";
+import { Box, Button, Typography, Container } from "@mui/material";
 
 function App() {
   const navigate = useNavigate();
 
+  // HomeScreen.tsx
   return (
-    <>
-      <div>
-        <h1>Home Page</h1>
-        <button onClick={() => navigate("/theater")}>Go to Theater</button>
-      </div>
-    </>
+    <Container>
+      <Box></Box>
+    </Container>
   );
 }
 

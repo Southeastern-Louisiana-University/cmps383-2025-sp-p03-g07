@@ -33,3 +33,10 @@ export interface AuthenticationFetch {
     // Add other user fields if needed
   };
 }
+
+export interface MovieSchedule {
+  id: number;
+  movie: Movie;
+  theater: Theater;
+  showtime: number;
+}
