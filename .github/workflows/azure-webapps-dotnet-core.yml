@@ -20,13 +20,13 @@
 name: Build and deploy ASP.Net Core app to an Azure Web App
 
 env:
-  AZURE_WEBAPP_NAME: cmps383-sp25-p03-g07 # set this to the name of your Azure Web App
-  AZURE_WEBAPP_PACKAGE_PATH: "." # set this to the path to your web app project, defaults to the repository root
-  DOTNET_VERSION: "9.0.x" # set this to the .NET Core version to use
+  AZURE_WEBAPP_NAME: cmps383-sp25-p03-g07    # set this to the name of your Azure Web App
+  AZURE_WEBAPP_PACKAGE_PATH: '.'             # path to your web app project
+  DOTNET_VERSION: '9.0.x'                    # .NET Core version
 
 on:
   push:
-    branches: ["master"]
+    branches: [ "master" ]
   workflow_dispatch:
 
 permissions:
@@ -43,6 +43,26 @@ jobs:
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Set up Node.js (for Vite/React build)
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Clean node_modules and lock file
+        run: |
+          cd Selu383.SP25.P03.Web
+          rm -rf node_modules package-lock.json || true
+
+      - name: Install frontend dependencies
+        run: |
+          cd Selu383.SP25.P03.Web
+          npm install
+
+      - name: Build frontend
+        run: |
+          cd Selu383.SP25.P03.Web
+          npm run build
 
       - name: Set up dependency caching for faster builds
         uses: actions/cache@v3
@@ -70,7 +90,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     environment:
-      name: "Development"
+      name: 'Development'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
