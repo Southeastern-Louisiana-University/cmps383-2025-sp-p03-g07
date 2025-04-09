@@ -11,6 +11,7 @@ import TheaterDetails from "./TheaterPage/TheaterDetails.tsx";
 import SeatCount from "./Components/SeatCount.tsx";
 import MovieCarousel from "./Components/MovieCarousel.tsx";
 import PurchaseTicket from "./Components/PurchaseTicket.tsx";
+import Dashboard from "./dashboard.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <Router>
@@ -26,6 +27,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <Route path="/movies/:id" element={<MovieDetail />} />
       <Route path="/seatcount/:id" element={<SeatCount />} />
       <Route path="/purchase/:id" element={<PurchaseTicket />} />
+      <Route path="/admin" element={<Dashboard />} />
     </Routes>
   </Router>
 );

@@ -7,6 +7,7 @@ import {
   Box,
   Container,
   Alert,
+  Paper,
 } from "@mui/material";
 import axios from "axios";
 
@@ -17,7 +18,6 @@ interface AuthenticationPost {
 
 interface AuthenticationFetch {
   token: string;
-  // Add more fields if your API response includes them
 }
 
 const LoginForm: React.FC = () => {
@@ -56,36 +56,82 @@ const LoginForm: React.FC = () => {
   };
 
   return (
-    <Container maxWidth="sm">
-      <Box
-        component="form"
-        onSubmit={handleSubmit}
-        sx={{ mt: 4, display: "flex", flexDirection: "column", gap: 2 }}
+    <Container maxWidth="sm" sx={{ mt: 4 }}>
+      <Paper
+        elevation={3}
+        sx={{
+          backgroundColor: "#121212",
+          color: "white",
+          padding: 4,
+          borderRadius: 2,
+        }}
       >
-        <Typography variant="h4" textAlign="center">
-          Login
-        </Typography>
+        <Box
+          component="form"
+          onSubmit={handleSubmit}
+          sx={{ display: "flex", flexDirection: "column", gap: 2 }}
+        >
+          <Typography variant="h4" textAlign="center" color="white">
+            Login
+          </Typography>
 
-        {error && <Alert severity="error">{error}</Alert>}
-        {success && <Alert severity="success">{success}</Alert>}
+          {error && <Alert severity="error">{error}</Alert>}
+          {success && <Alert severity="success">{success}</Alert>}
 
-        <TextField
-          label="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
-        <TextField
-          label="Password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <Button type="submit" variant="contained">
-          Sign In
-        </Button>
-      </Box>
+          <TextField
+            label="Username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+            InputLabelProps={{ style: { color: "white" } }}
+            InputProps={{
+              style: { color: "white" },
+            }}
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: "white",
+                },
+                "&:hover fieldset": {
+                  borderColor: "#90caf9",
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: "#1976d2",
+                },
+              },
+            }}
+          />
+
+          <TextField
+            label="Password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+            InputLabelProps={{ style: { color: "white" } }}
+            InputProps={{
+              style: { color: "white" },
+            }}
+            sx={{
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: "white",
+                },
+                "&:hover fieldset": {
+                  borderColor: "#90caf9",
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: "#1976d2",
+                },
+              },
+            }}
+          />
+
+          <Button type="submit" variant="contained">
+            Sign In
+          </Button>
+        </Box>
+      </Paper>
     </Container>
   );
 };

@@ -58,16 +58,16 @@ const TheaterList = () => {
             onChange={handleChange}
             onClick={handleSubmit}
             sx={{
-              color: "white",
+              color: "Black",
               backgroundColor: "rgba(255, 255, 255, 0.2)",
               "& .MuiOutlinedInput-notchedOutline": {
                 borderColor: "white",
               },
               "&:hover .MuiOutlinedInput-notchedOutline": {
-                borderColor: "#ddd",
+                borderColor: "black",
               },
               "& .MuiSvgIcon-root": {
-                color: "white",
+                color: "black",
               },
             }}
           >
