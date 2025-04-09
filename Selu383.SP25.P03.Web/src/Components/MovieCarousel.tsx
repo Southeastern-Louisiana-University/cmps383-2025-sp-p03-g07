@@ -8,7 +8,7 @@ function MovieCarousel() {
   const carouselRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    fetch("https://localhost:7027/api/movies")
+    fetch("https://cmps383-sp25-p03-g07.azurewebsites.net/api/movies")
       .then((res) => res.json())
       .then((data) => setMovies(data))
       .catch((err) => console.error("Failed to fetch movies:", err));

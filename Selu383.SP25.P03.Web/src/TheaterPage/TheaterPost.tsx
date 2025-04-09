@@ -34,7 +34,7 @@ const TheaterPostForm: React.FC = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "https://localhost:7027/api/theaters",
+        "https://cmps383-sp25-p03-g07.azurewebsites.net/api/theaters",
         form
       );
       setSuccess("Theater post created successfully!");
