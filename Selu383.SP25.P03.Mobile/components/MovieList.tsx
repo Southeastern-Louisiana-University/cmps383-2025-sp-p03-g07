@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, ActivityIndicator, Image, StyleSheet, TouchableOpacity, Modal, Button } from 'react-native';
 import axios from 'axios';
+import { useRouter } from 'expo-router';
 
 interface MovieDto {
   id: number;
@@ -18,7 +19,8 @@ interface ShowtimeDto {
 
 const API_URL = 'https://kingfish-actual-probably.ngrok-free.app/api/movies';
 
-const MovieList = ({ navigation }: any) => {
+const MovieList = () => {
+  const router = useRouter();
   const [movies, setMovies] = useState<MovieDto[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -102,7 +104,19 @@ const MovieList = ({ navigation }: any) => {
               {selectedMovie.showtimes.map((showtime) => (
                 <Text style={styles.modalShowtime} key={showtime.id}>{showtime.time}</Text>
               ))}
-              <Button title="Close" onPress={handleCloseModal} />
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', marginTop: 20 }}>
+          
+        <View style={{ flex: 1, marginRight: 10 }}>
+    <Button title="Close" onPress={handleCloseModal} />
+  </View>
+          <Button
+             title="Get Your Ticket!"
+            onPress={() => {
+            setModalVisible(false);
+          router.push(`/room?movie=${encodeURIComponent(selectedMovie?.title ?? '')}`);
+          }}
+  />
+</View>
             </View>
           </View>
         </Modal>
