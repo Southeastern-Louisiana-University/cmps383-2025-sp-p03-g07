@@ -142,7 +142,7 @@ namespace Selu383.SP25.P03.Api.Migrations
                     b.ToTable("Movies");
                 });
 
-            modelBuilder.Entity("Selu383.SP25.P03.Api.Features.Movies.MovieSchedule", b =>
+            modelBuilder.Entity("Selu383.SP25.P03.Api.Features.Movies.MovieShowtime", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -158,29 +158,6 @@ namespace Selu383.SP25.P03.Api.Migrations
 
                     b.Property<int>("TheaterId")
                         .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MovieId");
-
-                    b.HasIndex("TheaterId");
-
-                    b.ToTable("MovieSchedules");
-                });
-
-            modelBuilder.Entity("Selu383.SP25.P03.Api.Features.Movies.MovieShowtime", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("MovieId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Showtime")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -242,8 +219,6 @@ namespace Selu383.SP25.P03.Api.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("TicketId");
-
-                    b.HasIndex("MovieScheduleId");
 
                     b.ToTable("Tickets");
                 });
@@ -397,25 +372,6 @@ namespace Selu383.SP25.P03.Api.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Selu383.SP25.P03.Api.Features.Movies.MovieSchedule", b =>
-                {
-                    b.HasOne("Selu383.SP25.P03.Api.Features.Movies.Movie", "Movie")
-                        .WithMany()
-                        .HasForeignKey("MovieId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Selu383.SP25.P03.Api.Features.Theaters.Theater", "Theater")
-                        .WithMany()
-                        .HasForeignKey("TheaterId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Movie");
-
-                    b.Navigation("Theater");
-                });
-
             modelBuilder.Entity("Selu383.SP25.P03.Api.Features.Movies.MovieShowtime", b =>
                 {
                     b.HasOne("Selu383.SP25.P03.Api.Features.Movies.Movie", "Movie")
@@ -434,17 +390,6 @@ namespace Selu383.SP25.P03.Api.Migrations
                         .HasForeignKey("ManagerId");
 
                     b.Navigation("Manager");
-                });
-
-            modelBuilder.Entity("Selu383.SP25.P03.Api.Features.Tickets.Ticket", b =>
-                {
-                    b.HasOne("Selu383.SP25.P03.Api.Features.Movies.MovieSchedule", "MovieSchedule")
-                        .WithMany()
-                        .HasForeignKey("MovieScheduleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("MovieSchedule");
                 });
 
             modelBuilder.Entity("Selu383.SP25.P03.Api.Features.Users.UserRole", b =>

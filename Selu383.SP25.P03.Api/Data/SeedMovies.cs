@@ -13,6 +13,9 @@ namespace Selu383.SP25.P03.Api.Data
         {
             using (var context = new DataContext(serviceProvider.GetRequiredService<DbContextOptions<DataContext>>()))
             {
+
+                var theaters = context.Theaters.ToList();
+
                 context.Movies.RemoveRange(context.Movies);
                 context.SaveChanges();
                 var movies = new List<Movie>
@@ -24,11 +27,6 @@ namespace Selu383.SP25.P03.Api.Data
                         Genre = "Action",
                         RuntimeMinutes = 126,
                         ImageUrl = "https://i.imgur.com/UfjpniJ.jpeg",
-                        Showtimes = new List<MovieShowtime>
-                        {
-                            new MovieShowtime { Showtime = DateTime.Now.AddHours(1) },
-                            new MovieShowtime { Showtime = DateTime.Now.AddHours(4) }
-                        },
                         Rating = "PG-13"
                     },
                     new Movie
@@ -38,10 +36,6 @@ namespace Selu383.SP25.P03.Api.Data
                         Genre = "Action",
                         RuntimeMinutes = 112,
                         ImageUrl = "https://i.imgur.com/ETeowyI.jpeg",
-                        Showtimes = new List<MovieShowtime>
-                        {
-                            new MovieShowtime { Showtime = DateTime.Now.AddHours(2) }
-                        },
                         Rating = "PG-13"
                     },
                     new Movie
@@ -51,10 +45,6 @@ namespace Selu383.SP25.P03.Api.Data
                         Genre = "Action",
                         RuntimeMinutes = 124,
                         ImageUrl = "https://i.imgur.com/zhIg0Ga.jpeg",
-                        Showtimes = new List<MovieShowtime>
-                        {
-                            new MovieShowtime { Showtime = DateTime.Now.AddHours(3) }
-                        },
                         Rating = "PG-13"
                     },
                     new Movie
@@ -64,10 +54,6 @@ namespace Selu383.SP25.P03.Api.Data
                         Genre = "Horror",
                         RuntimeMinutes = 115,
                         ImageUrl = "https://i.imgur.com/54EwN2G.jpeg",
-                        Showtimes = new List<MovieShowtime>
-                        {
-                            new MovieShowtime { Showtime = DateTime.Now.AddHours(5) }
-                        },
                         Rating = "R"
                     },
                     new Movie
@@ -77,10 +63,6 @@ namespace Selu383.SP25.P03.Api.Data
                         Genre = "Horror",
                         RuntimeMinutes = 124,
                         ImageUrl = "https://i.imgur.com/8Sp97cp.jpeg",
-                        Showtimes = new List<MovieShowtime>
-                        {
-                            new MovieShowtime { Showtime = DateTime.Now.AddHours(6) }
-                        },
                         Rating = "R"
                     },
                     new Movie
@@ -90,10 +72,6 @@ namespace Selu383.SP25.P03.Api.Data
                         Genre = "Action",
                         RuntimeMinutes = 143,
                         ImageUrl = "https://i.imgur.com/pMCrpy9.jpeg",
-                        Showtimes = new List<MovieShowtime>
-                        {
-                            new MovieShowtime { Showtime = DateTime.Now.AddHours(7) }
-                        },
                         Rating = "TV-PG"
                     },
                     new Movie
@@ -103,10 +81,6 @@ namespace Selu383.SP25.P03.Api.Data
                         Genre = "Horror",
                         RuntimeMinutes = 85,
                         ImageUrl = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.themoviedb.org%2Ft%2Fp%2Foriginal%2FuJ2gzKLY8ZFBfn5SvsnFs8BnPmg.jpg&f=1&nofb=1&ipt=44496198776dee73e673f6a053d664b6d4e499fc31752c01b3f97d1e311d7422&ipo=images",
-                        Showtimes = new List<MovieShowtime>
-                        {
-                            new MovieShowtime { Showtime = DateTime.Now.AddHours(8) }
-                        },
                         Rating = "NC-17"
                     },
                     new Movie
@@ -116,10 +90,6 @@ namespace Selu383.SP25.P03.Api.Data
                         Genre = "Fantasy",
                         RuntimeMinutes = 102,
                         ImageUrl = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.themoviedb.org%2Ft%2Fp%2Foriginal%2F7gGXeoGycQUUokMfgnwmsqw5pKo.jpg&f=1&nofb=1&ipt=087bbc968110b5dcae6015c3ffdedfa1fdb111f5b330184649949ff3d8416c1d&ipo=images",
-                        Showtimes = new List<MovieShowtime>
-                        {
-                            new MovieShowtime { Showtime = DateTime.Now.AddHours(9) }
-                        },
                         Rating = "G"
                     },
                 };
