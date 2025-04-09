@@ -55,6 +55,14 @@ export default function ConcessionPage() {
           </TouchableOpacity>
         )}
       </View>
+
+      {/* No Thanks Button */}
+      <TouchableOpacity
+        style={styles.noThanksButton}
+        onPress={() => router.back()} // Navigate back to the previous screen
+      >
+        <Text style={styles.noThanksText}>No Thanks</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -103,6 +111,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   checkoutText: {
+    color: '#fff',
+    fontWeight: '600',
+  },
+  noThanksButton: {
+    backgroundColor: '#FF6347', // A red color to make the button stand out
+    padding: 12,
+    borderRadius: 8,
+    marginTop: 20,
+    alignItems: 'center',
+  },
+  noThanksText: {
     color: '#fff',
     fontWeight: '600',
   },

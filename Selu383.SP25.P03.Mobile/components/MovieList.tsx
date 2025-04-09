@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, ActivityIndicator, Image, StyleSheet, TouchableOpacity, Modal, Button } from 'react-native';
+import { View, Text, FlatList, ActivityIndicator, Image, StyleSheet, TouchableOpacity, Modal, Button, Linking } from 'react-native';
 import axios from 'axios';
 import { useRouter } from 'expo-router';
 
@@ -10,6 +10,7 @@ interface MovieDto {
   duration: number;
   showtimes: ShowtimeDto[];
   imageUrl: string;
+  trailerUrl: string;  // Add trailerUrl field
 }
 
 interface ShowtimeDto {
@@ -53,6 +54,10 @@ const MovieList = () => {
   const handleCloseModal = () => {
     setModalVisible(false);
     setSelectedMovie(null);
+  };
+
+  const handleWatchTrailer = (url: string) => {
+    Linking.openURL(url);  
   };
 
   return (
@@ -104,19 +109,27 @@ const MovieList = () => {
               {selectedMovie.showtimes.map((showtime) => (
                 <Text style={styles.modalShowtime} key={showtime.id}>{showtime.time}</Text>
               ))}
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', marginTop: 20 }}>
-          
-        <View style={{ flex: 1, marginRight: 10 }}>
-    <Button title="Close" onPress={handleCloseModal} />
-  </View>
-          <Button
-             title="Get Your Ticket!"
-            onPress={() => {
-            setModalVisible(false);
-          router.push(`/room?movie=${encodeURIComponent(selectedMovie?.title ?? '')}`);
-          }}
-  />
-</View>
+
+              {/* Watch Trailer Button inside the Modal */}
+              <TouchableOpacity 
+                style={styles.trailerButton}
+                onPress={() => handleWatchTrailer(selectedMovie.trailerUrl)}
+              >
+                <Text style={styles.trailerButtonText}>Watch Trailer</Text>
+              </TouchableOpacity>
+
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', marginTop: 20 }}>
+                <View style={{ flex: 1, marginRight: 10 }}>
+                  <Button title="Close" onPress={handleCloseModal} />
+                </View>
+                <Button
+                  title="Get Your Ticket!"
+                  onPress={() => {
+                    setModalVisible(false);
+                    router.push(`/room?movie=${encodeURIComponent(selectedMovie?.title ?? '')}`);
+                  }}
+                />
+              </View>
             </View>
           </View>
         </Modal>
@@ -163,6 +176,17 @@ const styles = StyleSheet.create({
   },
   showtime: {
     color: 'white',
+  },
+  trailerButton: {
+    marginTop: 10,
+    backgroundColor: '#007AFF',
+    padding: 10,
+    borderRadius: 5,
+    alignItems: 'center',
+  },
+  trailerButtonText: {
+    color: '#fff',
+    fontWeight: '600',
   },
   modalContainer: {
     flex: 1,

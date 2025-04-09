@@ -9,24 +9,24 @@ const Seating = () => {
   const [selectedSeat, setSelectedSeat] = useState<string | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [purchasedSeats, setPurchasedSeats] = useState<Set<string>>(new Set());
-  const [removeMode, setRemoveMode] = useState(false); // State to toggle remove mode
-  const router = useRouter(); // Using the router hook from expo-router
+  const [removeMode, setRemoveMode] = useState(false); 
+  const router = useRouter(); 
 
   const handleSeatPress = (seatId: string) => {
-    // If the seat is purchased, we allow deselecting in remove mode
+    
     if (purchasedSeats.has(seatId)) {
       if (removeMode) {
         setPurchasedSeats((prev) => {
           const newSeats = new Set(prev);
-          newSeats.delete(seatId); // Remove the seat from purchased set
+          newSeats.delete(seatId); 
           return newSeats;
         });
-        setSelectedSeat(null); // Reset the selected seat
+        setSelectedSeat(null); 
         alert(`Seat ${seatId} has been removed.`);
       }
     } else {
       if (selectedSeat === seatId) {
-        setSelectedSeat(null); // Deselect seat if clicked again
+        setSelectedSeat(null); 
         setModalVisible(false);
       } else {
         setSelectedSeat(seatId);
@@ -37,10 +37,10 @@ const Seating = () => {
 
   const handlePurchaseSeat = () => {
     if (selectedSeat) {
-      setPurchasedSeats((prev) => new Set(prev).add(selectedSeat)); // Mark seat as purchased
+      setPurchasedSeats((prev) => new Set(prev).add(selectedSeat)); 
       alert(`Seat ${selectedSeat} purchased!`);
       setModalVisible(false);
-      setSelectedSeat(null); // Clear selection after purchase
+      setSelectedSeat(null); 
     }
   };
 
@@ -58,11 +58,11 @@ const Seating = () => {
             key={seatId}
             style={[
               styles.seat,
-              isPurchased && styles.purchasedSeat, // Purchased style
-              isSelected && styles.selectedSeat, // Selected seat style
+              isPurchased && styles.purchasedSeat, 
+              isSelected && styles.selectedSeat,
             ]}
             onPress={() => handleSeatPress(seatId)}
-            disabled={isPurchased && !removeMode} // Disable seats unless in remove mode
+            disabled={isPurchased && !removeMode} 
           >
             <Text style={styles.seatText}>{seatId}</Text>
           </TouchableOpacity>
@@ -84,7 +84,7 @@ const Seating = () => {
         <Text style={styles.screenText}>This is where the screen of the movie is</Text>
       </View>
       <Image
-        source={{ uri: 'https://example.com/screen-image.jpg' }} // Replace with the actual image URL
+        source={{ uri: 'https://example.com/screen-image.jpg' }} 
         style={styles.screenImage}
       />
       <Text style={styles.title}>Select Your Seat</Text>
@@ -112,7 +112,10 @@ const Seating = () => {
 
       {/* Remove Mode Toggle */}
       <TouchableOpacity
-        style={styles.toggleButton}
+        style={[
+          styles.toggleButton,
+          removeMode && styles.toggleButtonRed, 
+        ]}
         onPress={() => setRemoveMode(!removeMode)}
       >
         <Text style={styles.toggleButtonText}>
@@ -124,7 +127,7 @@ const Seating = () => {
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           style={styles.nextButton}
-          onPress={() => router.push('/concessions')} // Navigate to Concession page
+          onPress={() => router.push('/concessions')} 
         >
           <Text style={styles.nextButtonText}>Next</Text>
         </TouchableOpacity>
@@ -134,100 +137,103 @@ const Seating = () => {
 };
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#121212',
-      paddingTop: 30,
-      alignItems: 'center',
-    },
-    screenBox: {
-      backgroundColor: '#333',
-      paddingVertical: 10,
-      paddingHorizontal: 15,
-      borderRadius: 5,
-      marginBottom: 10,
-    },
-    screenText: {
-      color: 'white',
-      fontSize: 16,
-      fontWeight: 'bold',
-    },
-    screenImage: {
-      width: '100%',
-      height: 10, // Adjust as needed
-      marginBottom: 20,
-      resizeMode: 'contain',
-    },
-    title: {
-      fontSize: 22,
-      color: 'white',
-      marginBottom: 20,
-    },
-    row: {
-      flexDirection: 'row',
-      marginBottom: 10,
-    },
-    seat: {
-      width: 40,
-      height: 40,
-      backgroundColor: '#3a3a3a',
-      marginHorizontal: 5,
-      justifyContent: 'center',
-      alignItems: 'center',
-      borderRadius: 6,
-    },
-    purchasedSeat: {
-      backgroundColor: 'purple',
-    },
-    selectedSeat: {
-      backgroundColor: 'blue',
-    },
-    seatText: {
-      color: 'white',
-      fontWeight: 'bold',
-    },
-    modalContainer: {
-      flex: 1,
-      justifyContent: 'center',
-      backgroundColor: 'rgba(0,0,0,0.6)',
-      padding: 20,
-    },
-    modalBox: {
-      backgroundColor: 'white',
-      borderRadius: 10,
-      padding: 30,
-      alignItems: 'center',
-    },
-    modalText: {
-      fontSize: 18,
-      marginBottom: 20,
-    },
-    buttonContainer: {
-      flexDirection: 'row', // Align buttons horizontally
-      justifyContent: 'center',
-      marginTop: 20,
-    },
-    toggleButton: {
-      backgroundColor: '#444',
-      padding: 10,
-      borderRadius: 5,
-      marginRight: 10, // Space between the buttons
-    },
-    toggleButtonText: {
-      color: 'white',
-      fontSize: 16,
-    },
-    nextButton: {
-      backgroundColor: '#00BFFF',
-      paddingVertical: 12,
-      paddingHorizontal: 25,
-      borderRadius: 5,
-    },
-    nextButtonText: {
-      color: 'white',
-      fontSize: 18,
-      fontWeight: 'bold',
-    },
-  });
-  
+  container: {
+    flex: 1,
+    backgroundColor: '#121212',
+    paddingTop: 30,
+    alignItems: 'center',
+  },
+  screenBox: {
+    backgroundColor: '#333',
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderRadius: 5,
+    marginBottom: 10,
+  },
+  screenText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  screenImage: {
+    width: '100%',
+    height: 10, 
+    marginBottom: 20,
+    resizeMode: 'contain',
+  },
+  title: {
+    fontSize: 22,
+    color: 'white',
+    marginBottom: 20,
+  },
+  row: {
+    flexDirection: 'row',
+    marginBottom: 10,
+  },
+  seat: {
+    width: 40,
+    height: 40,
+    backgroundColor: '#3a3a3a',
+    marginHorizontal: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 6,
+  },
+  purchasedSeat: {
+    backgroundColor: 'purple',
+  },
+  selectedSeat: {
+    backgroundColor: 'blue',
+  },
+  seatText: {
+    color: 'white',
+    fontWeight: 'bold',
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: 'rgba(0,0,0,0.6)',
+    padding: 20,
+  },
+  modalBox: {
+    backgroundColor: 'white',
+    borderRadius: 10,
+    padding: 30,
+    alignItems: 'center',
+  },
+  modalText: {
+    fontSize: 18,
+    marginBottom: 20,
+  },
+  buttonContainer: {
+    flexDirection: 'row', 
+    justifyContent: 'center',
+    marginTop: 20,
+  },
+  toggleButton: {
+    backgroundColor: '#444', 
+    padding: 10,
+    borderRadius: 5,
+    marginRight: 10, 
+  },
+  toggleButtonRed: {
+    backgroundColor: 'red', 
+  },
+  toggleButtonText: {
+    color: 'white',
+    fontSize: 16,
+  },
+  nextButton: {
+    backgroundColor: '#00BFFF',
+    paddingVertical: 12,
+    paddingHorizontal: 25,
+    borderRadius: 5,
+  },
+  nextButtonText: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+});
+
 export default Seating;

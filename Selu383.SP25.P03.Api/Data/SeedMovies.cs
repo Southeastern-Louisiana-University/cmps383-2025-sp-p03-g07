@@ -27,7 +27,8 @@ namespace Selu383.SP25.P03.Api.Data
                         Genre = "Action",
                         RuntimeMinutes = 126,
                         ImageUrl = "https://i.imgur.com/UfjpniJ.jpeg",
-                        Rating = "PG-13"
+                        Rating = "PG-13",
+                        TrailerUrl = "https://www.youtube.com/embed/8ugaeA-nMTc?si=5i8SHBdvpZX1s3JA"
                     },
                     new Movie
                     {
