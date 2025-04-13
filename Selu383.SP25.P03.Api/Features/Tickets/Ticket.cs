@@ -10,8 +10,8 @@ namespace Selu383.SP25.P03.Api.Features.Tickets
         public int TicketId { get; set; }
         public int MovieScheduleId { get; set; }
         [ForeignKey("MovieScheduleId")]
-        public MovieSchedule? MovieSchedule { get; set; }
-        public string? CustomerName { get; set; }
+
+        public required string CustomerName { get; set; }
         [Required]
         public required string SeatNumber { get; set; }
         [Required]

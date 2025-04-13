@@ -5,24 +5,24 @@
 namespace Selu383.SP25.P03.Api.Migrations
 {
     /// <inheritdoc />
-    public partial class fixdb1 : Migration
+    public partial class @new : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            //migrationBuilder.DropColumn(
-            //    name: "ImageUrl",
-            //    table: "Movies");
+            migrationBuilder.AddColumn<string>(
+                name: "TrailerUrl",
+                table: "Movies",
+                type: "nvarchar(max)",
+                nullable: true);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            //migrationBuilder.AddColumn<string>(
-            //    name: "ImageUrl",
-            //    table: "Movies",
-            //    type: "nvarchar(max)",
-            //    nullable: true);
+            migrationBuilder.DropColumn(
+                name: "TrailerUrl",
+                table: "Movies");
         }
     }
 }

@@ -13,5 +13,6 @@ namespace Selu383.SP25.P03.Api.Features.Movies
         [ForeignKey("MovieId")]
         [JsonIgnore] // <-- Add this
         public Movie? Movie { get; set; }
+        public int TheaterId { get; set; }
     }
 }

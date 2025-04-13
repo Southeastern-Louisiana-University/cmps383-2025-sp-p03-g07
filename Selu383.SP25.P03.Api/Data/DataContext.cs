@@ -17,7 +17,6 @@ namespace Selu383.SP25.P03.Api.Data
         public DbSet<Theater> Theaters { get; set; }
         public DbSet<Movie> Movies { get; set; }
         public DbSet<MovieShowtime> MovieShowtimes { get; set; }
-        public DbSet<MovieSchedule> MovieSchedules { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
