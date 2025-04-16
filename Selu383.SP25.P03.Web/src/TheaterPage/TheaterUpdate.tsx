@@ -34,10 +34,7 @@ const TheaterUpdateForm: React.FC = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.put(
-        `https://localhost:7027/api/theaters/${id}`,
-        form
-      );
+      const response = await axios.put(`/api/theaters/${id}`, form);
       setSuccess("Theater updated successfully!");
       setError("");
       console.log(response.data);

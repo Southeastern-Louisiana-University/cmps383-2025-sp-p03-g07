@@ -33,10 +33,7 @@ const TheaterPostForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        "https://localhost:7027/api/theaters",
-        form
-      );
+      const response = await axios.post("/api/theaters", form);
       setSuccess("Theater post created successfully!");
       setError("");
       console.log(response.data);
