@@ -13,12 +13,11 @@ namespace Selu383.SP25.P03.Api.Data
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
         }
-
         public DbSet<Theater> Theaters { get; set; }
+        public DbSet<Screen> Screens { get; set; }
         public DbSet<Movie> Movies { get; set; }
         public DbSet<MovieShowtime> MovieShowtimes { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
-
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -36,9 +35,12 @@ namespace Selu383.SP25.P03.Api.Data
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
             builder.Entity<Ticket>()
-                .HasIndex(t => new { t.MovieScheduleId, t.SeatNumber })
+                .HasIndex(t => new { t.MovieShowtimeId, t.SeatNumber })
                 .IsUnique();
+
+           
         }
     }
 }
+
 

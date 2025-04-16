@@ -40,9 +40,7 @@ namespace Selu383.SP25.P03.Api
                 options.AddPolicy("AllowAll",
                     policy =>
                     {
-                        policy.AllowAnyOrigin()
-                              .AllowAnyMethod()
-                              .AllowAnyHeader();
+                        policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
                     });
             });
             builder.Services.ConfigureApplicationCookie(options =>
@@ -67,8 +65,10 @@ namespace Selu383.SP25.P03.Api
                 var db = scope.ServiceProvider.GetRequiredService<DataContext>();
                 await db.Database.MigrateAsync();
                 SeedTheaters.Initialize(scope.ServiceProvider);
+                SeedScreens.Initialize(scope.ServiceProvider);
                 SeedMovies.Initialize(scope.ServiceProvider);
-
+                SeedMovieSchedules.Initialize(scope.ServiceProvider);
+                SeedTickets.Initialize(scope.ServiceProvider);
                 await SeedRoles.Initialize(scope.ServiceProvider);
                 await SeedUsers.Initialize(scope.ServiceProvider);
             }
@@ -95,4 +95,5 @@ namespace Selu383.SP25.P03.Api
         }
     }
 }
+
 

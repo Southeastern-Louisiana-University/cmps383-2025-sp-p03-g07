@@ -18,20 +18,20 @@ namespace Selu383.SP25.P03.Api.Data
                 context.Tickets.RemoveRange(context.Tickets);
                 context.SaveChanges();
                 int minSeats = 30;
-                var schedules = context.MovieSchedules.Include(ms => ms.Theater).ToList();
+                var schedules = context.MovieShowtimes.Include(ms => ms.Screen).ThenInclude(s => s.Theater).ToList();
                 var tickets = new List<Ticket>();
                 foreach (var schedule in schedules)
                 {
-                    int seatCount = schedule.Theater?.SeatCount ?? minSeats;
+                    int seatCount = schedule.Screen?.SeatCount ?? minSeats;
                     if (seatCount < minSeats)
                         seatCount = minSeats;
                     for (int i = 1; i <= seatCount; i++)
                     {
                         tickets.Add(new Ticket
                         {
-                            MovieScheduleId = schedule.Id,
+                            MovieShowtimeId = schedule.Id,
                             SeatNumber = i.ToString(),
-                            SeatType = "Regular",
+                            SeatType = "Premium",
                             IsPurchased = false,
                             ConfirmationCode = "",
                             MovieName = "",
@@ -46,4 +46,5 @@ namespace Selu383.SP25.P03.Api.Data
         }
     }
 }
+
 

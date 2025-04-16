@@ -8,14 +8,12 @@ namespace Selu383.SP25.P03.Api.Features.Tickets
     public class Ticket
     {
         public int TicketId { get; set; }
-        public int MovieScheduleId { get; set; }
-        [ForeignKey("MovieScheduleId")]
-
-        public required string CustomerName { get; set; }
+        public int MovieShowtimeId { get; set; }
+        [ForeignKey("MovieShowtimeId")]
+        public MovieShowtime? MovieShowtime { get; set; }
+        public string CustomerName { get; set; } = "";
         [Required]
-        public required string SeatNumber { get; set; }
-        [Required]
-        public required string SeatType { get; set; }
+        public string SeatNumber { get; set; } = "";
         public DateTime? PurchaseTime { get; set; }
         public bool IsPurchased { get; set; }
         [Required]
@@ -25,6 +23,8 @@ namespace Selu383.SP25.P03.Api.Features.Tickets
         [Required]
         public string TheaterLocation { get; set; } = "";
         public DateTime? ShowTime { get; set; }
+        [Required]
+        public string SeatType { get; set; } = "Premium";
     }
 }
 
