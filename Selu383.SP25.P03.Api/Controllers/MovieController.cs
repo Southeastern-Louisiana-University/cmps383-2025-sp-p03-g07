@@ -16,7 +16,7 @@ namespace Selu383.SP25.P03.Api.Controllers
         public MoviesController(DataContext context) => _context = context;
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<MovieDto>>> GetMovies()
+        public async Task<ActionResult<List<MovieDto>>> GetMovies()
         {
             var list = await _context.Movies
                 .Include(m => m.Showtimes)
@@ -46,20 +46,20 @@ namespace Selu383.SP25.P03.Api.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<MovieDto>> GetMovie(int id)
         {
-            var m = await _context.Movies
-                .Include(mo => mo.Showtimes)
-                .Where(mo => mo.Id == id)
-                .Select(mo => new MovieDto
+            var dto = await _context.Movies
+                .Include(m => m.Showtimes)
+                .Where(m => m.Id == id)
+                .Select(m => new MovieDto
                 {
-                    Id = mo.Id,
-                    Title = mo.Title,
-                    Description = mo.Description,
-                    Genre = mo.Genre,
-                    RuntimeMinutes = mo.RuntimeMinutes,
-                    ImageUrl = mo.ImageUrl,
-                    Rating = mo.Rating,
-                    TrailerUrl = mo.TrailerUrl,
-                    Showtimes = mo.Showtimes
+                    Id = m.Id,
+                    Title = m.Title,
+                    Description = m.Description,
+                    Genre = m.Genre,
+                    RuntimeMinutes = m.RuntimeMinutes,
+                    ImageUrl = m.ImageUrl,
+                    Rating = m.Rating,
+                    TrailerUrl = m.TrailerUrl,
+                    Showtimes = m.Showtimes
                         .Select(s => new MovieShowtimeDto
                         {
                             Id = s.Id,
@@ -69,9 +69,9 @@ namespace Selu383.SP25.P03.Api.Controllers
                         .ToList()
                 })
                 .FirstOrDefaultAsync();
-            if (m == null)
-                return NotFound();
-            return Ok(m);
+
+            if (dto == null) return NotFound();
+            return Ok(dto);
         }
 
         [HttpPost]
@@ -106,14 +106,9 @@ namespace Selu383.SP25.P03.Api.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateMovie(int id, MovieDto movieDto)
         {
-            if (id != movieDto.Id)
-                return BadRequest();
-
-            var movie = await _context.Movies
-                .Include(m => m.Showtimes)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (movie == null)
-                return NotFound();
+            if (id != movieDto.Id) return BadRequest();
+            var movie = await _context.Movies.Include(m => m.Showtimes).FirstOrDefaultAsync(m => m.Id == id);
+            if (movie == null) return NotFound();
 
             movie.Title = movieDto.Title;
             movie.Description = movieDto.Description;
@@ -131,9 +126,7 @@ namespace Selu383.SP25.P03.Api.Controllers
         public async Task<IActionResult> DeleteMovie(int id)
         {
             var movie = await _context.Movies.FindAsync(id);
-            if (movie == null)
-                return NotFound();
-
+            if (movie == null) return NotFound();
             _context.Movies.Remove(movie);
             await _context.SaveChangesAsync();
             return NoContent();

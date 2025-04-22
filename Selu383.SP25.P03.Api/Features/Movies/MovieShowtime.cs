@@ -8,7 +8,7 @@ namespace Selu383.SP25.P03.Api.Features.Movies
     public class MovieShowtime
     {
         public int Id { get; set; }
-        public DateTime Showtime { get; set; }
+        public TimeSpan Showtime { get; set; }
         public int MovieId { get; set; }
         [ForeignKey("MovieId")]
         [JsonIgnore]
@@ -18,3 +18,4 @@ namespace Selu383.SP25.P03.Api.Features.Movies
         public Screen? Screen { get; set; }
     }
 }
+

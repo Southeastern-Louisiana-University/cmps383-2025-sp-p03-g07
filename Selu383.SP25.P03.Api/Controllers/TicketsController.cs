@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Selu383.SP25.P03.Api.Data;
-using Selu383.SP25.P03.Api.Features.Movies;
 using Selu383.SP25.P03.Api.Features.Tickets;
 
 namespace Selu383.SP25.P03.Api.Controllers
@@ -15,17 +14,14 @@ namespace Selu383.SP25.P03.Api.Controllers
     public class TicketsController : ControllerBase
     {
         private readonly DataContext _context;
-        public TicketsController(DataContext context)
-        {
-            _context = context;
-        }
+        public TicketsController(DataContext context) => _context = context;
 
         [HttpGet("movieshowtime/{movieShowtimeId}")]
-        public async Task<ActionResult<IEnumerable<Selu383.SP25.P03.Api.Features.Tickets.TicketDto>>> GetTicketsByMovieShowtime(int movieShowtimeId)
+        public async Task<ActionResult<IEnumerable<TicketDto>>> GetTicketsByMovieShowtime(int movieShowtimeId)
         {
             var dtos = await _context.Tickets
                 .Where(t => t.MovieShowtimeId == movieShowtimeId)
-                .Select(t => new Selu383.SP25.P03.Api.Features.Tickets.TicketDto
+                .Select(t => new TicketDto
                 {
                     Id = t.TicketId,
                     MovieShowtimeId = t.MovieShowtimeId,
@@ -33,74 +29,66 @@ namespace Selu383.SP25.P03.Api.Controllers
                     IsPurchased = t.IsPurchased,
                     ConfirmationCode = t.ConfirmationCode,
                     CustomerName = t.CustomerName,
-                    PurchaseTime = t.PurchaseTime ?? DateTime.MinValue,
+                    PurchaseTime = t.PurchaseTime,
                     MovieName = t.MovieName,
                     TheaterLocation = t.TheaterLocation,
                     ShowTime = t.ShowTime
                 })
                 .ToListAsync();
-
             return Ok(dtos);
         }
 
         [HttpPost("purchase")]
-        public async Task<ActionResult<Selu383.SP25.P03.Api.Features.Tickets.TicketDto>> PurchaseTicket([FromBody] Ticket purchase)
+        public async Task<ActionResult<TicketDto>> PurchaseTicket([FromBody] TicketDto purchase)
         {
             var ticketEntity = await _context.Tickets.FirstOrDefaultAsync(t =>
                 t.MovieShowtimeId == purchase.MovieShowtimeId &&
                 t.SeatNumber == purchase.SeatNumber &&
                 !t.IsPurchased);
 
-            if (ticketEntity == null)
-                return BadRequest("Ticket not available or already purchased.");
+            if (ticketEntity == null) return BadRequest("Ticket not available or already purchased.");
 
             var showtime = await _context.MovieShowtimes
                 .Include(ms => ms.Movie)
                 .Include(ms => ms.Screen).ThenInclude(s => s.Theater)
                 .FirstOrDefaultAsync(ms => ms.Id == purchase.MovieShowtimeId);
 
-            if (showtime == null)
-                return BadRequest("Invalid movie showtime.");
+            if (showtime == null) return BadRequest("Invalid movie showtime.");
 
-            ticketEntity.IsPurchased   = true;
+            ticketEntity.IsPurchased = true;
             ticketEntity.ConfirmationCode = GenerateConfirmationCode(12);
-            ticketEntity.CustomerName  = purchase.CustomerName;
-            ticketEntity.PurchaseTime  = DateTime.UtcNow;
-            ticketEntity.MovieName     = showtime.Movie?.Title ?? "";
-            ticketEntity.TheaterLocation = showtime.Screen?.Theater?.Address ?? "";
-            ticketEntity.ShowTime      = showtime.Showtime;
+            ticketEntity.CustomerName = purchase.CustomerName;
+            ticketEntity.PurchaseTime = DateTime.UtcNow;
+            ticketEntity.MovieName = showtime.Movie!.Title;
+            ticketEntity.TheaterLocation = showtime.Screen!.Theater!.Address;
+            ticketEntity.ShowTime = showtime.Showtime;
 
             await _context.SaveChangesAsync();
 
-            var dto = new Selu383.SP25.P03.Api.Features.Tickets.TicketDto
+            var dto = new TicketDto
             {
-                Id               = ticketEntity.TicketId,
-                MovieShowtimeId  = ticketEntity.MovieShowtimeId,
-                SeatNumber       = ticketEntity.SeatNumber,
-                IsPurchased      = ticketEntity.IsPurchased,
+                Id = ticketEntity.TicketId,
+                MovieShowtimeId = ticketEntity.MovieShowtimeId,
+                SeatNumber = ticketEntity.SeatNumber,
+                IsPurchased = ticketEntity.IsPurchased,
                 ConfirmationCode = ticketEntity.ConfirmationCode,
-                CustomerName     = ticketEntity.CustomerName,
-                PurchaseTime     = ticketEntity.PurchaseTime ?? DateTime.MinValue,
-                MovieName        = ticketEntity.MovieName,
-                TheaterLocation  = ticketEntity.TheaterLocation,
-                ShowTime         = ticketEntity.ShowTime
+                CustomerName = ticketEntity.CustomerName,
+                PurchaseTime = ticketEntity.PurchaseTime,
+                MovieName = ticketEntity.MovieName,
+                TheaterLocation = ticketEntity.TheaterLocation,
+                ShowTime = ticketEntity.ShowTime
             };
 
-            return CreatedAtAction(
-                nameof(GetTicketsByMovieShowtime),
-                new { movieShowtimeId = dto.MovieShowtimeId },
-                dto
-            );
+            return CreatedAtAction(nameof(GetTicketsByMovieShowtime),
+                new { movieShowtimeId = dto.MovieShowtimeId }, dto);
         }
 
         private string GenerateConfirmationCode(int length)
         {
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
             var rand = new Random();
-            return new string(Enumerable
-                .Repeat(chars, length)
-                .Select(s => s[rand.Next(s.Length)])
-                .ToArray());
+            return new string(Enumerable.Repeat(chars, length)
+                .Select(s => s[rand.Next(s.Length)]).ToArray());
         }
     }
 }
