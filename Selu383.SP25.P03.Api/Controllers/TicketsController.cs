@@ -1,8 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Selu383.SP25.P03.Api.Data;
+using Selu383.SP25.P03.Api.Features.Movies;
 using Selu383.SP25.P03.Api.Features.Tickets;
-using System.Linq;
 
 namespace Selu383.SP25.P03.Api.Controllers
 {
@@ -17,45 +21,86 @@ namespace Selu383.SP25.P03.Api.Controllers
         }
 
         [HttpGet("movieshowtime/{movieShowtimeId}")]
-        public async Task<ActionResult<IEnumerable<Ticket>>> GetTicketsByMovieShowtime(int movieShowtimeId)
+        public async Task<ActionResult<IEnumerable<Selu383.SP25.P03.Api.Features.Tickets.TicketDto>>> GetTicketsByMovieShowtime(int movieShowtimeId)
         {
-            var tickets = await _context.Tickets.Where(t => t.MovieShowtimeId == movieShowtimeId).ToListAsync();
-            return tickets;
+            var dtos = await _context.Tickets
+                .Where(t => t.MovieShowtimeId == movieShowtimeId)
+                .Select(t => new Selu383.SP25.P03.Api.Features.Tickets.TicketDto
+                {
+                    Id = t.TicketId,
+                    MovieShowtimeId = t.MovieShowtimeId,
+                    SeatNumber = t.SeatNumber,
+                    IsPurchased = t.IsPurchased,
+                    ConfirmationCode = t.ConfirmationCode,
+                    CustomerName = t.CustomerName,
+                    PurchaseTime = t.PurchaseTime ?? DateTime.MinValue,
+                    MovieName = t.MovieName,
+                    TheaterLocation = t.TheaterLocation,
+                    ShowTime = t.ShowTime
+                })
+                .ToListAsync();
+
+            return Ok(dtos);
         }
 
         [HttpPost("purchase")]
-        public async Task<ActionResult<Ticket>> PurchaseTicket([FromBody] Ticket purchase)
+        public async Task<ActionResult<Selu383.SP25.P03.Api.Features.Tickets.TicketDto>> PurchaseTicket([FromBody] Ticket purchase)
         {
-            var ticket = await _context.Tickets.FirstOrDefaultAsync(t => t.MovieShowtimeId == purchase.MovieShowtimeId &&
-                                                                           t.SeatNumber == purchase.SeatNumber &&
-                                                                           !t.IsPurchased);
-            if (ticket == null)
+            var ticketEntity = await _context.Tickets.FirstOrDefaultAsync(t =>
+                t.MovieShowtimeId == purchase.MovieShowtimeId &&
+                t.SeatNumber == purchase.SeatNumber &&
+                !t.IsPurchased);
+
+            if (ticketEntity == null)
                 return BadRequest("Ticket not available or already purchased.");
 
             var showtime = await _context.MovieShowtimes
-                                    .Include(ms => ms.Movie)
-                                    .Include(ms => ms.Screen).ThenInclude(s => s.Theater)
-                                    .FirstOrDefaultAsync(ms => ms.Id == purchase.MovieShowtimeId);
+                .Include(ms => ms.Movie)
+                .Include(ms => ms.Screen).ThenInclude(s => s.Theater)
+                .FirstOrDefaultAsync(ms => ms.Id == purchase.MovieShowtimeId);
+
             if (showtime == null)
                 return BadRequest("Invalid movie showtime.");
 
-            ticket.ConfirmationCode = GenerateConfirmationCode(12);
-            ticket.MovieName = showtime.Movie?.Title ?? "";
-            ticket.TheaterLocation = showtime.Screen?.Theater?.Address ?? "";
-            ticket.ShowTime = showtime.Showtime;
-            ticket.CustomerName = purchase.CustomerName;
-            ticket.PurchaseTime = DateTime.UtcNow;
-            ticket.IsPurchased = true;
-            ticket.SeatType = "Premium";
+            ticketEntity.IsPurchased   = true;
+            ticketEntity.ConfirmationCode = GenerateConfirmationCode(12);
+            ticketEntity.CustomerName  = purchase.CustomerName;
+            ticketEntity.PurchaseTime  = DateTime.UtcNow;
+            ticketEntity.MovieName     = showtime.Movie?.Title ?? "";
+            ticketEntity.TheaterLocation = showtime.Screen?.Theater?.Address ?? "";
+            ticketEntity.ShowTime      = showtime.Showtime;
+
             await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetTicketsByMovieShowtime), new { movieShowtimeId = ticket.MovieShowtimeId }, ticket);
+
+            var dto = new Selu383.SP25.P03.Api.Features.Tickets.TicketDto
+            {
+                Id               = ticketEntity.TicketId,
+                MovieShowtimeId  = ticketEntity.MovieShowtimeId,
+                SeatNumber       = ticketEntity.SeatNumber,
+                IsPurchased      = ticketEntity.IsPurchased,
+                ConfirmationCode = ticketEntity.ConfirmationCode,
+                CustomerName     = ticketEntity.CustomerName,
+                PurchaseTime     = ticketEntity.PurchaseTime ?? DateTime.MinValue,
+                MovieName        = ticketEntity.MovieName,
+                TheaterLocation  = ticketEntity.TheaterLocation,
+                ShowTime         = ticketEntity.ShowTime
+            };
+
+            return CreatedAtAction(
+                nameof(GetTicketsByMovieShowtime),
+                new { movieShowtimeId = dto.MovieShowtimeId },
+                dto
+            );
         }
 
         private string GenerateConfirmationCode(int length)
         {
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-            var random = new Random();
-            return new string(Enumerable.Repeat(chars, length).Select(s => s[random.Next(s.Length)]).ToArray());
+            var rand = new Random();
+            return new string(Enumerable
+                .Repeat(chars, length)
+                .Select(s => s[rand.Next(s.Length)])
+                .ToArray());
         }
     }
 }

@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Selu383.SP25.P03.Api.Data;
 using Selu383.SP25.P03.Api.Features.Movies;
@@ -10,51 +13,117 @@ namespace Selu383.SP25.P03.Api.Controllers
     public class MoviesController : ControllerBase
     {
         private readonly DataContext _context;
-        public MoviesController(DataContext context)
-        {
-            _context = context;
-        }
+        public MoviesController(DataContext context) => _context = context;
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Movie>>> GetMovies()
+        public async Task<ActionResult<IEnumerable<MovieDto>>> GetMovies()
         {
-            return await _context.Movies.Include(m => m.Showtimes).ToListAsync();
+            var list = await _context.Movies
+                .Include(m => m.Showtimes)
+                .Select(m => new MovieDto
+                {
+                    Id = m.Id,
+                    Title = m.Title,
+                    Description = m.Description,
+                    Genre = m.Genre,
+                    RuntimeMinutes = m.RuntimeMinutes,
+                    ImageUrl = m.ImageUrl,
+                    Rating = m.Rating,
+                    TrailerUrl = m.TrailerUrl,
+                    Showtimes = m.Showtimes
+                        .Select(s => new MovieShowtimeDto
+                        {
+                            Id = s.Id,
+                            Showtime = s.Showtime,
+                            ScreenId = s.ScreenId
+                        })
+                        .ToList()
+                })
+                .ToListAsync();
+            return Ok(list);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Movie>> GetMovie(int id)
+        public async Task<ActionResult<MovieDto>> GetMovie(int id)
         {
-            var movie = await _context.Movies.Include(m => m.Showtimes).FirstOrDefaultAsync(m => m.Id == id);
-            if (movie == null)
+            var m = await _context.Movies
+                .Include(mo => mo.Showtimes)
+                .Where(mo => mo.Id == id)
+                .Select(mo => new MovieDto
+                {
+                    Id = mo.Id,
+                    Title = mo.Title,
+                    Description = mo.Description,
+                    Genre = mo.Genre,
+                    RuntimeMinutes = mo.RuntimeMinutes,
+                    ImageUrl = mo.ImageUrl,
+                    Rating = mo.Rating,
+                    TrailerUrl = mo.TrailerUrl,
+                    Showtimes = mo.Showtimes
+                        .Select(s => new MovieShowtimeDto
+                        {
+                            Id = s.Id,
+                            Showtime = s.Showtime,
+                            ScreenId = s.ScreenId
+                        })
+                        .ToList()
+                })
+                .FirstOrDefaultAsync();
+            if (m == null)
                 return NotFound();
-            return movie;
+            return Ok(m);
         }
 
         [HttpPost]
-        public async Task<ActionResult<Movie>> CreateMovie(Movie movie)
+        public async Task<ActionResult<MovieDto>> CreateMovie(Movie movie)
         {
             _context.Movies.Add(movie);
             await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetMovie), new { id = movie.Id }, movie);
+
+            var dto = new MovieDto
+            {
+                Id = movie.Id,
+                Title = movie.Title,
+                Description = movie.Description,
+                Genre = movie.Genre,
+                RuntimeMinutes = movie.RuntimeMinutes,
+                ImageUrl = movie.ImageUrl,
+                Rating = movie.Rating,
+                TrailerUrl = movie.TrailerUrl,
+                Showtimes = movie.Showtimes
+                    .Select(s => new MovieShowtimeDto
+                    {
+                        Id = s.Id,
+                        Showtime = s.Showtime,
+                        ScreenId = s.ScreenId
+                    })
+                    .ToList()
+            };
+
+            return CreatedAtAction(nameof(GetMovie), new { id = dto.Id }, dto);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateMovie(int id, Movie movie)
+        public async Task<IActionResult> UpdateMovie(int id, MovieDto movieDto)
         {
-            if (id != movie.Id)
+            if (id != movieDto.Id)
                 return BadRequest();
-            _context.Entry(movie).State = EntityState.Modified;
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!_context.Movies.Any(e => e.Id == id))
-                    return NotFound();
-                else
-                    throw;
-            }
+
+            var movie = await _context.Movies
+                .Include(m => m.Showtimes)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (movie == null)
+                return NotFound();
+
+            movie.Title = movieDto.Title;
+            movie.Description = movieDto.Description;
+            movie.Genre = movieDto.Genre;
+            movie.RuntimeMinutes = movieDto.RuntimeMinutes;
+            movie.ImageUrl = movieDto.ImageUrl;
+            movie.Rating = movieDto.Rating;
+            movie.TrailerUrl = movieDto.TrailerUrl;
+
+            await _context.SaveChangesAsync();
             return NoContent();
         }
 
@@ -64,11 +133,10 @@ namespace Selu383.SP25.P03.Api.Controllers
             var movie = await _context.Movies.FindAsync(id);
             if (movie == null)
                 return NotFound();
+
             _context.Movies.Remove(movie);
             await _context.SaveChangesAsync();
             return NoContent();
         }
-
-
     }
 }

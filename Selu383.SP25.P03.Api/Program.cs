@@ -1,3 +1,5 @@
+using System;
+using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Selu383.SP25.P03.Api.Data;
@@ -11,16 +13,27 @@ namespace Selu383.SP25.P03.Api
         public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+
             builder.Services.AddDbContext<DataContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DataContext") ?? throw new InvalidOperationException("Connection string 'DataContext' not found.")));
-            builder.Services.AddControllers();
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DataContext")
+                    ?? throw new InvalidOperationException("Connection string 'DataContext' not found.")));
+
+            builder.Services
+                .AddControllers()
+                .AddJsonOptions(opts =>
+                {
+                    opts.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+                });
+
             builder.Services.AddOpenApi();
             builder.Services.AddRazorPages();
             builder.Services.AddIdentity<User, Role>()
                 .AddEntityFrameworkStores<DataContext>()
                 .AddDefaultTokenProviders();
+
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
             builder.Services.Configure<IdentityOptions>(options =>
             {
                 options.Password.RequireDigit = true;
@@ -32,17 +45,19 @@ namespace Selu383.SP25.P03.Api
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
                 options.Lockout.MaxFailedAccessAttempts = 5;
                 options.Lockout.AllowedForNewUsers = true;
-                options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                options.User.AllowedUserNameCharacters =
+                    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
                 options.User.RequireUniqueEmail = false;
             });
+
             builder.Services.AddCors(options =>
             {
-                options.AddPolicy("AllowAll",
-                    policy =>
-                    {
-                        policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
-                    });
+                options.AddPolicy("AllowAll", policy =>
+                {
+                    policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                });
             });
+
             builder.Services.ConfigureApplicationCookie(options =>
             {
                 options.Cookie.HttpOnly = true;
@@ -59,7 +74,9 @@ namespace Selu383.SP25.P03.Api
                 };
                 options.SlidingExpiration = true;
             });
+
             var app = builder.Build();
+
             using (var scope = app.Services.CreateScope())
             {
                 var db = scope.ServiceProvider.GetRequiredService<DataContext>();
@@ -72,28 +89,33 @@ namespace Selu383.SP25.P03.Api
                 await SeedRoles.Initialize(scope.ServiceProvider);
                 await SeedUsers.Initialize(scope.ServiceProvider);
             }
+
             if (app.Environment.IsDevelopment())
             {
                 app.MapOpenApi();
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
             app.UseCors("AllowAll");
             app.UseHttpsRedirection();
             app.UseAuthentication();
-            app.UseRouting().UseAuthorization().UseEndpoints(x => { x.MapControllers(); });
+            app.UseRouting();
+            app.UseAuthorization();
+            app.MapControllers();
             app.UseStaticFiles();
+
             if (app.Environment.IsDevelopment())
             {
-                app.UseSpa(x => { x.UseProxyToSpaDevelopmentServer("http://localhost:5173"); });
+                app.UseSpa(x => x.UseProxyToSpaDevelopmentServer("http://localhost:5173"));
             }
             else
             {
                 app.MapFallbackToFile("/index.html");
             }
+
             app.Run();
         }
     }
 }
-
 
