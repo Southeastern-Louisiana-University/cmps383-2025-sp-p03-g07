@@ -1,4 +1,5 @@
-﻿using Selu383.SP25.P03.Api.Features.Theaters;
+﻿using Selu383.SP25.P03.Api.Features.Screens;
+using Selu383.SP25.P03.Api.Features.Theaters;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -16,6 +17,7 @@ namespace Selu383.SP25.P03.Api.Features.Movies
         public string? ImageUrl { get; set; }
         public string? Rating { get; set; }
         public string? TrailerUrl { get; set; }
+        public ICollection<Screen> Screens { get; set; }
 
     }
 }

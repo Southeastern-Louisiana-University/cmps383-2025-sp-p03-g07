@@ -6,6 +6,7 @@ using Selu383.SP25.P03.Api.Features.Theaters;
 using Selu383.SP25.P03.Api.Features.Movies;
 using Selu383.SP25.P03.Api.Features.Tickets;
 using System.Net.Sockets;
+using Selu383.SP25.P03.Api.Features.Screens;
 
 namespace Selu383.SP25.P03.Api.Data
 {
@@ -19,11 +20,13 @@ namespace Selu383.SP25.P03.Api.Data
         public DbSet<Movie> Movies { get; set; }
         public DbSet<MovieShowtime> MovieShowtimes { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
+        public DbSet<Screen> Screens { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
 
+            // Set up a composite primary key for the UserRole table
             builder.Entity<UserRole>().HasKey(x => new { x.UserId, x.RoleId });
             builder.Entity<User>()
                 .HasMany(e => e.UserRoles)
@@ -37,6 +40,22 @@ namespace Selu383.SP25.P03.Api.Data
                 .HasForeignKey(x => x.RoleId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
+
+            // Set up relationships for Screen, Theater, and Movie
+            builder.Entity<Screen>()
+                .HasOne(s => s.Theater)
+                .WithMany(t => t.Screens) // Assuming a theater can have many screens
+                .HasForeignKey(s => s.TheaterId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade); // Deleting a theater deletes its screens
+
+            builder.Entity<Screen>()
+                .HasOne(s => s.Movie)
+                .WithMany(m => m.Screens) // Assuming a movie can be shown in many screens
+                .HasForeignKey(s => s.MovieId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade); // Deleting a movie deletes its screens
         }
+
     }
 }
