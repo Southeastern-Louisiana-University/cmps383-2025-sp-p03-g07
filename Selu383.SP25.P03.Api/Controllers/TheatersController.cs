@@ -57,7 +57,6 @@ namespace Selu383.SP25.P03.Api.Controllers
             {
                 Name = dto.Name,
                 Address = dto.Address,
-                ManagerId = dto.ManagerId
             };
 
             dataContext.Theaters.Add(theater);
@@ -96,13 +95,11 @@ namespace Selu383.SP25.P03.Api.Controllers
 
             if (User.IsInRole(UserRoleNames.Admin))
             {
-                theater.ManagerId = dto.ManagerId;
             }
 
             dataContext.SaveChanges();
 
             dto.Id = theater.Id;
-            dto.ManagerId = theater.ManagerId;
 
             return Ok("Successfully updated Theater");
         }
@@ -129,8 +126,7 @@ namespace Selu383.SP25.P03.Api.Controllers
         {
             return string.IsNullOrWhiteSpace(dto.Name) ||
                    dto.Name.Length > 120 ||
-                   string.IsNullOrWhiteSpace(dto.Address) ||
-                   dto.ManagerId != null && !users.Any(x => x.Id == dto.ManagerId);
+                   string.IsNullOrWhiteSpace(dto.Address);
         }
 
         private static IQueryable<TheaterDto> GetTheaterDtos(IQueryable<Theater> theaters)
@@ -141,7 +137,6 @@ namespace Selu383.SP25.P03.Api.Controllers
                     Id = x.Id,
                     Name = x.Name,
                     Address = x.Address,
-                    ManagerId = x.ManagerId
                 });
         }
     }
