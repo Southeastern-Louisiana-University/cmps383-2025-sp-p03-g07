@@ -15,7 +15,7 @@ const TheaterPage = () => {
     const fetchTheater = async () => {
       try {
         const response = await axios.get(
-          `https://cmps383-sp25-p03-g07.azurewebsites.net/api/theaters/${id}`
+          `https://localhost:7027/api/theaters/${id}`
         );
         setTheater(response.data);
       } finally {

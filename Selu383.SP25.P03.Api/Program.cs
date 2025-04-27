@@ -38,11 +38,10 @@ namespace Selu383.SP25.P03.Api
 
             builder.Services.AddCors(options =>
             {
-                options.AddPolicy("AllowLocalhost",
-                    builder => builder
-                        .WithOrigins("http://localhost:5173") // Your Vite development server URL
-                        .AllowAnyHeader()
-                        .AllowAnyMethod());
+                options.AddPolicy("AllowAll", policy =>
+                {
+                    policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                });
             });
 
 
@@ -79,7 +78,7 @@ namespace Selu383.SP25.P03.Api
                 app.UseSwaggerUI();
             }
 
-            app.UseCors("AllowLocalhost");  // Apply the CORS policy
+            app.UseCors("AllowAll");  // Apply the CORS policy
 
             app.UseHttpsRedirection();
             app.UseAuthentication();

@@ -50,7 +50,7 @@ const MovieTableWithCRUD: React.FC = () => {
   const [editingMovie, setEditingMovie] = useState<Movie>(defaultMovie);
 
   const fetchMovies = async () => {
-    const res = await axios.get<Movie[]>("/api/movies");
+    const res = await axios.get<Movie[]>("https://localhost:7027/api/movies");
     setMovies(res.data);
   };
 
@@ -68,9 +68,12 @@ const MovieTableWithCRUD: React.FC = () => {
 
   const handleSave = async () => {
     if (editingMovie.id === 0) {
-      await axios.post("/api/movies", editingMovie);
+      await axios.post("https://localhost:7027/api/movies", editingMovie);
     } else {
-      await axios.put(`/api/movies/${editingMovie.id}`, editingMovie);
+      await axios.put(
+        `https://localhost:7027/api/movies/${editingMovie.id}`,
+        editingMovie
+      );
     }
     setOpenDialog(false);
     setEditingMovie(defaultMovie);

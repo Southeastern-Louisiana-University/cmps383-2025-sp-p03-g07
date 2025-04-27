@@ -21,7 +21,7 @@ const TheaterList = () => {
   const fetchTheaters = async () => {
     setLoading(true);
     try {
-      const response = await axios.get("/api/theaters");
+      const response = await axios.get("https://localhost:7027/api/theaters");
       setTheaters(response.data); // Store API data in state
       setVisible(true); // Show the data when fetched
     } catch (error) {

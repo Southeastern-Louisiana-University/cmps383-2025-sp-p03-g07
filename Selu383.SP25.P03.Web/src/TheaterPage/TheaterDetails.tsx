@@ -39,7 +39,9 @@ const TheaterTableWithCRUD: React.FC = () => {
 
   // Fetch theaters from the API
   const fetchTheaters = async () => {
-    const res = await axios.get<Theater[]>("/api/theaters");
+    const res = await axios.get<Theater[]>(
+      "https://localhost:7027/api/theaters/"
+    );
     setTheaters(res.data);
   };
 
@@ -60,10 +62,13 @@ const TheaterTableWithCRUD: React.FC = () => {
   const handleSave = async () => {
     if (editingTheater.id === 0) {
       // Create new theater
-      await axios.post("/api/theaters", editingTheater);
+      await axios.post("https://localhost:7027/api/theaters/", editingTheater);
     } else {
       // Update existing theater
-      await axios.put(`/api/theaters/${editingTheater.id}`, editingTheater);
+      await axios.put(
+        `https://localhost:7027/api/theaters/${editingTheater.id}`,
+        editingTheater
+      );
     }
     setOpenDialog(false);
     setEditingTheater(defaultTheater); // Reset the form after saving
@@ -73,7 +78,7 @@ const TheaterTableWithCRUD: React.FC = () => {
   // Handle deletion of a theater
   const handleDelete = async (id: number) => {
     if (window.confirm("Are you sure you want to delete this theater?")) {
-      await axios.delete(`/api/theaters/${id}`);
+      await axios.delete(`https://localhost:7027/api/theaters/${id}`);
       fetchTheaters(); // Refresh the list after deletion
     }
   };
