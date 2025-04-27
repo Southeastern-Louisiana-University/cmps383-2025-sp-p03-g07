@@ -20,6 +20,7 @@ namespace Selu383.SP25.P03.Api.Data
         public DbSet<Movie> Movies { get; set; }
         public DbSet<MovieShowtime> MovieShowtimes { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
+        public DbSet<Feedback> Feedbacks { get; set; }
         public DbSet<Screen> Screens { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -55,6 +56,11 @@ namespace Selu383.SP25.P03.Api.Data
                 .HasForeignKey(s => s.MovieId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade); // Deleting a movie deletes its screens
+            builder.Entity<Feedback>()
+                .HasOne(f => f.Movie)
+                .WithMany()
+                .HasForeignKey(f => f.MovieId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
 
     }
