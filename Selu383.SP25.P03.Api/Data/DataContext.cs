@@ -19,7 +19,7 @@ namespace Selu383.SP25.P03.Api.Data
         public DbSet<Movie> Movies { get; set; }
         public DbSet<MovieShowtime> MovieShowtimes { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
-
+        public DbSet<Feedback> Feedbacks { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -37,6 +37,11 @@ namespace Selu383.SP25.P03.Api.Data
                 .HasForeignKey(x => x.RoleId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<Feedback>()
+                .HasOne(f => f.Movie)
+                .WithMany()
+                .HasForeignKey(f => f.MovieId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
