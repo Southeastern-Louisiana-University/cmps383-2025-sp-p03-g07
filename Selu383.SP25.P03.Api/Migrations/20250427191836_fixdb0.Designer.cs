@@ -12,8 +12,8 @@ using Selu383.SP25.P03.Api.Data;
 namespace Selu383.SP25.P03.Api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250422201012_UseTimeSpanForShowtime")]
-    partial class UseTimeSpanForShowtime
+    [Migration("20250427191836_fixdb0")]
+    partial class fixdb0
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

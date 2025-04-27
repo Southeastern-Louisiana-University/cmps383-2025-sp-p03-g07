@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Selu383.SP25.P03.Api.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialDbFix : Migration
+    public partial class fixdb0 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -225,7 +225,7 @@ namespace Selu383.SP25.P03.Api.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Showtime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Showtime = table.Column<TimeSpan>(type: "time", nullable: false),
                     MovieId = table.Column<int>(type: "int", nullable: false),
                     ScreenId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -260,7 +260,7 @@ namespace Selu383.SP25.P03.Api.Migrations
                     ConfirmationCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     MovieName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TheaterLocation = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ShowTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ShowTime = table.Column<TimeSpan>(type: "time", nullable: true),
                     SeatType = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
