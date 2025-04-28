@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Selu383.SP25.P03.Api.Migrations
 {
     /// <inheritdoc />
-    public partial class NewMigrate1 : Migration
+    public partial class fixdb0 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -63,11 +63,27 @@ namespace Selu383.SP25.P03.Api.Migrations
                     Genre = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RuntimeMinutes = table.Column<int>(type: "int", nullable: false),
                     ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Rating = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Rating = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TrailerUrl = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Movies", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Theaters",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(120)", maxLength: 120, nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SeatCount = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Theaters", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -193,24 +209,26 @@ namespace Selu383.SP25.P03.Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Theaters",
+                name: "Feedbacks",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(120)", maxLength: 120, nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SeatCount = table.Column<int>(type: "int", nullable: false),
-                    ManagerId = table.Column<int>(type: "int", nullable: true)
+                    Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MovieId = table.Column<int>(type: "int", nullable: false),
+                    Rating = table.Column<int>(type: "int", nullable: false),
+                    Comment = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Theaters", x => x.Id);
+                    table.PrimaryKey("PK_Feedbacks", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Theaters_AspNetUsers_ManagerId",
-                        column: x => x.ManagerId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                        name: "FK_Feedbacks_Movies_MovieId",
+                        column: x => x.MovieId,
+                        principalTable: "Movies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -230,6 +248,33 @@ namespace Selu383.SP25.P03.Api.Migrations
                         name: "FK_MovieShowtimes_Movies_MovieId",
                         column: x => x.MovieId,
                         principalTable: "Movies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Screens",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TheaterId = table.Column<int>(type: "int", nullable: false),
+                    SeatCount = table.Column<int>(type: "int", nullable: false),
+                    MovieId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Screens", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Screens_Movies_MovieId",
+                        column: x => x.MovieId,
+                        principalTable: "Movies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Screens_Theaters_TheaterId",
+                        column: x => x.TheaterId,
+                        principalTable: "Theaters",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -274,14 +319,24 @@ namespace Selu383.SP25.P03.Api.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Feedbacks_MovieId",
+                table: "Feedbacks",
+                column: "MovieId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_MovieShowtimes_MovieId",
                 table: "MovieShowtimes",
                 column: "MovieId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Theaters_ManagerId",
-                table: "Theaters",
-                column: "ManagerId");
+                name: "IX_Screens_MovieId",
+                table: "Screens",
+                column: "MovieId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Screens_TheaterId",
+                table: "Screens",
+                column: "TheaterId");
         }
 
         /// <inheritdoc />
@@ -303,10 +358,13 @@ namespace Selu383.SP25.P03.Api.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Feedbacks");
+
+            migrationBuilder.DropTable(
                 name: "MovieShowtimes");
 
             migrationBuilder.DropTable(
-                name: "Theaters");
+                name: "Screens");
 
             migrationBuilder.DropTable(
                 name: "Tickets");
@@ -315,10 +373,13 @@ namespace Selu383.SP25.P03.Api.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
                 name: "Movies");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Theaters");
         }
     }
 }

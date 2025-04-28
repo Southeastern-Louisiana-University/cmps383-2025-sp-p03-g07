@@ -28,7 +28,13 @@ namespace Selu383.SP25.P03.Api.Controllers
         [HttpGet]
         public IQueryable<TheaterDto> GetAllTheaters()
         {
-            return GetTheaterDtos(theaters);
+             return theaters
+            .Select(x => new TheaterDto
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Address = x.Address,
+            });
         }
 
         [HttpGet]
@@ -93,13 +99,7 @@ namespace Selu383.SP25.P03.Api.Controllers
             theater.Name = dto.Name;
             theater.Address = dto.Address;
 
-            if (User.IsInRole(UserRoleNames.Admin))
-            {
-            }
-
             dataContext.SaveChanges();
-
-            dto.Id = theater.Id;
 
             return Ok("Successfully updated Theater");
         }

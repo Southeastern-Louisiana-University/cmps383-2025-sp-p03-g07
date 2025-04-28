@@ -9,16 +9,17 @@ import MovieDetail from "./MoviePage/MovieDetails.tsx";
 import MovieFetch from "./MoviePage/MovieFetch.tsx";
 import TheaterDetails from "./TheaterPage/TheaterDetails.tsx";
 import SeatCount from "./Components/SeatCount.tsx";
-import MovieCarousel from "./Components/MovieCarousel.tsx";
 import PurchaseTicket from "./Components/PurchaseTicket.tsx";
 import Dashboard from "./Dashboard.tsx";
+import TheaterScreens from "./ScreenPages/TheaterScreens.tsx";
+import TheaterLocation from "./Components/TheaterLocation.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <Router>
     <ResponsiveAppBar />
 
     <Routes>
-      <Route path="/" element={<MovieCarousel />} />
+      <Route path="/" element={<TheaterLocation />} />
       <Route path="/theaters/:id" element={<TheaterPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/theaters/post" element={<TheaterPost />} />
@@ -28,6 +29,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <Route path="/seatcount/:id" element={<SeatCount />} />
       <Route path="/purchase/:id" element={<PurchaseTicket />} />
       <Route path="/admin" element={<Dashboard />} />
+      <Route path="/screens" element={<TheaterScreens />} />
     </Routes>
   </Router>
 );

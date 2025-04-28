@@ -53,9 +53,6 @@ const TheaterPage = () => {
       <Typography variant="h6" sx={{ marginBottom: 2 }}>
         Address: {theater.address}
       </Typography>
-      <Typography variant="body1" sx={{ marginBottom: 4 }}>
-        Seats Available: {theater.seatCount}
-      </Typography>
       <MovieCarousel />
     </Box>
   );

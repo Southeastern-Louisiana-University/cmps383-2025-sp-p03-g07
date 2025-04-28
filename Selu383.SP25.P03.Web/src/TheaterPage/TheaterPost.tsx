@@ -16,7 +16,8 @@ const TheaterPostForm: React.FC = () => {
     id: 0, // Default id value
     name: "",
     address: "",
-    seatCount: 0,
+    imageUrl: "",
+    Screen: [],
   });
 
   const [success, setSuccess] = useState("");
@@ -76,14 +77,6 @@ const TheaterPostForm: React.FC = () => {
           value={form.address}
           onChange={handleChange}
           required
-        />
-        <TextField
-          label="Seat Count"
-          name="seatCount"
-          value={form.seatCount}
-          onChange={handleChange}
-          required
-          InputLabelProps={{ shrink: true }}
         />
 
         <Button type="submit" variant="contained">

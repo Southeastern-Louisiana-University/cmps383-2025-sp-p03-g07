@@ -12,8 +12,8 @@ using Selu383.SP25.P03.Api.Data;
 namespace Selu383.SP25.P03.Api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250427231403_ManagerDel")]
-    partial class ManagerDel
+    [Migration("20250428014609_TheaterImageMigration")]
+    partial class TheaterImageMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -203,6 +203,32 @@ namespace Selu383.SP25.P03.Api.Migrations
                     b.ToTable("MovieShowtimes");
                 });
 
+            modelBuilder.Entity("Selu383.SP25.P03.Api.Features.Screens.Screen", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("MovieId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SeatCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TheaterId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MovieId");
+
+                    b.HasIndex("TheaterId");
+
+                    b.ToTable("Screens");
+                });
+
             modelBuilder.Entity("Selu383.SP25.P03.Api.Features.Theaters.Theater", b =>
                 {
                     b.Property<int>("Id")
@@ -222,6 +248,10 @@ namespace Selu383.SP25.P03.Api.Migrations
 
                     b.Property<int>("SeatCount")
                         .HasColumnType("int");
+
+                    b.Property<string>("TheaterImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -426,6 +456,25 @@ namespace Selu383.SP25.P03.Api.Migrations
                     b.Navigation("Movie");
                 });
 
+            modelBuilder.Entity("Selu383.SP25.P03.Api.Features.Screens.Screen", b =>
+                {
+                    b.HasOne("Selu383.SP25.P03.Api.Features.Movies.Movie", "Movie")
+                        .WithMany("Screens")
+                        .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Selu383.SP25.P03.Api.Features.Theaters.Theater", "Theater")
+                        .WithMany("Screens")
+                        .HasForeignKey("TheaterId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Movie");
+
+                    b.Navigation("Theater");
+                });
+
             modelBuilder.Entity("Selu383.SP25.P03.Api.Features.Users.UserRole", b =>
                 {
                     b.HasOne("Selu383.SP25.P03.Api.Features.Users.Role", "Role")
@@ -447,7 +496,14 @@ namespace Selu383.SP25.P03.Api.Migrations
 
             modelBuilder.Entity("Selu383.SP25.P03.Api.Features.Movies.Movie", b =>
                 {
+                    b.Navigation("Screens");
+
                     b.Navigation("Showtimes");
+                });
+
+            modelBuilder.Entity("Selu383.SP25.P03.Api.Features.Theaters.Theater", b =>
+                {
+                    b.Navigation("Screens");
                 });
 
             modelBuilder.Entity("Selu383.SP25.P03.Api.Features.Users.Role", b =>
