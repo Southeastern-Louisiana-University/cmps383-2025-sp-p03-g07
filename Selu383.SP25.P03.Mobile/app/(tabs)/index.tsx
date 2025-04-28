@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
-import { ThemedView } from '@/components/ThemedView';
-import MovieList from '@/components/MovieList';
 import { Picker } from '@react-native-picker/picker';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import axios from 'axios';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import MovieList from '@/components/MovieList';
+import { useNavigation } from '@react-navigation/native';
 
 const API_URL = 'https://kingfish-actual-probably.ngrok-free.app/api/theaters';
 

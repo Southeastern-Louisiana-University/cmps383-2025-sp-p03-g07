@@ -18,7 +18,7 @@ interface ShowtimeDto {
   time: string;
 }
 
-const API_URL = 'https://kingfish-actual-probably.ngrok-free.app/api/movies';
+const API_URL = 'https://cmps383-sp25-p03-g07.azurewebsites.net/api/movies/';
 
 const MovieList = () => {
   const router = useRouter();
@@ -87,6 +87,14 @@ const MovieList = () => {
                 <Text style={styles.showtime} key={showtime.id}>- {showtime.time}</Text>
               ))}
             </View>
+
+            {/* More Details Button */}
+            <TouchableOpacity
+              style={styles.moreDetailsButton}
+              onPress={() => router.push(`/MovieDetails/${item.id}`)} // Navigate to MovieDetail page
+            >
+              <Text style={styles.moreDetailsButtonText}>More Details</Text>
+            </TouchableOpacity>
           </TouchableOpacity>
         )}
       />
@@ -176,6 +184,17 @@ const styles = StyleSheet.create({
   },
   showtime: {
     color: 'white',
+  },
+  moreDetailsButton: {
+    marginTop: 10,
+    backgroundColor: '#007AFF',
+    padding: 10,
+    borderRadius: 5,
+    alignItems: 'center',
+  },
+  moreDetailsButtonText: {
+    color: '#fff',
+    fontWeight: '600',
   },
   trailerButton: {
     marginTop: 10,
