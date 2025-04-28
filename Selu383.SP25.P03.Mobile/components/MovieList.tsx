@@ -155,13 +155,13 @@ const MovieList = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1A1A3C', // Darker purple background
+    backgroundColor: '#1A1A3C', 
     padding: 20,
   },
   header: {
     fontSize: 25,
     fontWeight: 'bold',
-    color: '#E9B6FF', // Light purple
+    color: '#E9B6FF', 
     marginBottom: 20,
     textAlign: 'center',
   },
@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
   movieContainer: {
     flexDirection: 'row',
     marginVertical: 15,
-    backgroundColor: '#2A2A6D', // Slightly darker purple for cards
+    backgroundColor: '#2A2A6D',
     padding: 15,
     borderRadius: 15,
     elevation: 5,

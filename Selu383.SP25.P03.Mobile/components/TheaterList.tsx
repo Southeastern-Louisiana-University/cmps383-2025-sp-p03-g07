@@ -10,7 +10,7 @@ interface TheaterDto {
   managerId: number | null;
 }
 
-// Replace baseUrl with your theater API URL
+
 const baseUrl = 'https://cmps383-sp25-p03-g07.azurewebsites.net/';
 
 const TheaterList = () => {
@@ -22,17 +22,17 @@ const TheaterList = () => {
     setLoading(true);
     setError(null);
 
-    // Use template literals and integrate the baseUrl with the specific endpoint for theaters
+ 
     const url = `${baseUrl}api/theaters/`;
 
     try {
-      // You can also use axios in the way you suggested
+
       const response = await axios({
         method: 'get',
         url: url,
       });
 
-      console.log('Fetched Theater Data:', response.data);  // Log the fetched data
+      console.log('Fetched Theater Data:', response.data);  
 
       if (Array.isArray(response.data)) {
         setTheaters(response.data);
@@ -42,7 +42,7 @@ const TheaterList = () => {
     } catch (error) {
       console.error('Error fetching theaters:', error);
       if (axios.isAxiosError(error) && error.response) {
-        console.error('Response Error:', error.response.data); // Log the full error response
+        console.error('Response Error:', error.response.data); 
       }
       setError('Error fetching theaters. Please try again later.');
     } finally {
