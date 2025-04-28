@@ -86,8 +86,8 @@ const styles = StyleSheet.create({
     marginBottom: 50,
   },
   item: {
-    paddingVertical: 18,
-    paddingHorizontal: 30,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
     marginBottom: 18,
     backgroundColor: '#7a4dff', // Purple button background
     borderRadius: 20,
