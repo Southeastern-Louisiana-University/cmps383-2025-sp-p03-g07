@@ -24,7 +24,7 @@ public class ScreensController : ControllerBase
                 TheaterId = s.TheaterId,
                 TheaterName = s.Theater.Name,
                 Location = s.Theater.Address, // Assuming Address = Location
-                SeatCount = s.SeatCount,
+                SeatId = s.SeatId,
                 MovieId = s.MovieId,
                 MovieTitle = s.Movie.Title,
                 MovieGenre = s.Movie.Genre,
@@ -51,7 +51,7 @@ public class ScreensController : ControllerBase
             TheaterId = screen.TheaterId,
             TheaterName = screen.Theater?.Name,
             Location = screen.Theater?.Address,
-            SeatCount = screen.SeatCount,
+            SeatId = screen.SeatId,
             MovieId = screen.MovieId,
             MovieTitle = screen.Movie?.Title,
             MovieGenre = screen.Movie?.Genre

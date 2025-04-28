@@ -34,7 +34,6 @@ namespace Selu383.SP25.P03.Api.Controllers
                 Id = x.Id,
                 Name = x.Name,
                 Address = x.Address,
-                ImageUrl = x.ImageUrl // Add this line to include ImageUrl in the DTO
             });
         }
 
@@ -64,7 +63,6 @@ namespace Selu383.SP25.P03.Api.Controllers
             {
                 Name = dto.Name,
                 Address = dto.Address,
-                ImageUrl = dto.ImageUrl, // Include ImageUrl
             };
 
             dataContext.Theaters.Add(theater);
@@ -100,7 +98,6 @@ namespace Selu383.SP25.P03.Api.Controllers
 
             theater.Name = dto.Name;
             theater.Address = dto.Address;
-            theater.ImageUrl = dto.ImageUrl; // Update ImageUrl
 
             dataContext.SaveChanges();
 
@@ -140,7 +137,6 @@ namespace Selu383.SP25.P03.Api.Controllers
                     Id = x.Id,
                     Name = x.Name,
                     Address = x.Address,
-                    ImageUrl = x.ImageUrl, // Include ImageUrl
                 });
         }
     }

@@ -39,7 +39,7 @@ namespace Selu383.SP25.P03.Api.Features.Screens
                     {
                         TheaterId = theater.Id,
                         MovieId = movie.Id,
-                        SeatCount = random.Next(80, 150) // random seat count between 80 and 150
+                        SeatId = random.Next(80, 150) // random seat count between 80 and 150
                     });
                 }
             }

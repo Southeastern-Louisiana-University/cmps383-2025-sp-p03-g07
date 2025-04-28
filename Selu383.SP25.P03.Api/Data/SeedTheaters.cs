@@ -19,19 +19,16 @@ namespace Selu383.SP25.P03.Api.Data
                     {
                         Name = "New York",
                         Address = "570 2nd Ave, New York, NY 10016",
-                        ImageUrl = "https://i.imgur.com/UfjpniJ.jpeg"
                     },
                     new Theater
                     {
                         Name = "New Orleans",
                         Address = "636 N Broad St, New Orleans, LA, 70119",
-                        ImageUrl = ""
                     },
                     new Theater
                     {
                         Name = "Los Angeles",
                         Address = "4020 Marlton Ave, Los Angeles, CA 90008",
-                        ImageUrl = ""
                     }
 
                 );

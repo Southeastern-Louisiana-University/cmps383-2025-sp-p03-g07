@@ -10,7 +10,7 @@ namespace Selu383.SP25.P03.Api.Features.Screens
         public int Id { get; set; }
         public int TheaterId { get; set; }
         public Theater Theater { get; set; }
-        public int SeatCount { get; set; }
+        public int SeatId { get; set; }
         public int MovieId { get; set; }
         public Movie Movie { get; set; }
     }
