@@ -61,6 +61,11 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.rootContainer}>
+      {/* Header with "Lion’s Den Cinemas" */}
+      <View style={styles.header}>
+        <Text style={styles.title}>Lion's Den Cinemas</Text>
+      </View>
+
       {loading ? (
         <Text>Loading theaters...</Text>
       ) : error ? (
@@ -69,16 +74,16 @@ export default function HomeScreen() {
         <View style={styles.dropdownContainer}>
           <Icon name="location-arrow" size={20} color="#000" style={styles.icon} />
           <Picker
-  selectedValue={selectedTheater}
-  onValueChange={(itemValue) => setSelectedTheater(itemValue)}
-  style={styles.picker}
-  itemStyle={{ color: selectedTheater === null ? '#E9B6FF' : 'white' }}  // Example styling to change color
->
-  <Picker.Item label="Select a theater" value={null} style={{ color: '#888' }} />
-  {theaters.map((theater) => (
-    <Picker.Item key={theater.id} label={theater.name} value={theater.id} />
-  ))}
-</Picker>
+            selectedValue={selectedTheater}
+            onValueChange={(itemValue) => setSelectedTheater(itemValue)}
+            style={styles.picker}
+            itemStyle={{ color: selectedTheater === null ? '#E9B6FF' : 'white' }}  // Example styling to change color
+          >
+            <Picker.Item label="Select a theater" value={null} style={{ color: '#888' }} />
+            {theaters.map((theater) => (
+              <Picker.Item key={theater.id} label={theater.name} value={theater.id} />
+            ))}
+          </Picker>
         </View>
       )}
 
@@ -97,6 +102,15 @@ const styles = StyleSheet.create({
     paddingTop: 20, 
     paddingHorizontal: 10, 
     backgroundColor: '#1e1e1e', 
+  },
+  header: {
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  title: {
+    fontSize: 32,
+    color: '#fff',
+    fontWeight: 'bold',
   },
   dropdownContainer: {
     flexDirection: 'row',

@@ -6,12 +6,13 @@ type Item = {
   id: number;
   name: string;
   price: number;
+  emoji: string;
 };
 
 const CONCESSION_ITEMS: Item[] = [
-  { id: 1, name: 'Popcorn', price: 5 },
-  { id: 2, name: 'Soda', price: 3 },
-  { id: 3, name: 'Candy', price: 4 },
+  { id: 1, name: 'Popcorn', price: 5, emoji: '🍿' },
+  { id: 2, name: 'Soda', price: 3, emoji: '🥤' },
+  { id: 3, name: 'Candy', price: 4, emoji: '🍬' },
 ];
 
 export default function ConcessionPage() {
@@ -27,14 +28,14 @@ export default function ConcessionPage() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Concessions</Text>
+      <Text style={styles.header}>What food do you want brought to your seat?</Text>
 
       <FlatList
         data={CONCESSION_ITEMS}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <TouchableOpacity style={styles.item} onPress={() => addToCart(item)}>
-            <Text style={styles.itemText}>{item.name} - ${item.price}</Text>
+            <Text style={styles.itemText}>{item.emoji} {item.name} - ${item.price}</Text>
             <Text style={styles.addBtn}>+ Add</Text>
           </TouchableOpacity>
         )}
@@ -46,9 +47,15 @@ export default function ConcessionPage() {
           <TouchableOpacity
             style={styles.checkoutBtn}
             onPress={() => {
-              // TODO: Replace this with your checkout logic
-              alert(`Order placed to seat ${seat || 'your seat'}!`);
-              setCart([]);
+              // Navigate to the confirmation page and pass the seat and cart data
+              router.push({
+                pathname: '/confirmation', 
+                params: { 
+                  seatPrice: total, 
+                  cart: JSON.stringify(cart),
+                  seat: seat || 'N/A',
+                }
+              });
             }}
           >
             <Text style={styles.checkoutText}>Send to Seat</Text>
@@ -59,7 +66,17 @@ export default function ConcessionPage() {
       {/* No Thanks Button */}
       <TouchableOpacity
         style={styles.noThanksButton}
-        onPress={() => router.back()} // Navigate back to the previous screen
+        onPress={() => {
+          // Navigate to the confirmation page with "No Thanks"
+          router.push({
+            pathname: '/confirmation', 
+            params: { 
+              seatPrice: total, 
+              cart: JSON.stringify(cart),
+              seat: seat || 'N/A',
+            }
+          });
+        }} // Send user to confirmation page
       >
         <Text style={styles.noThanksText}>No Thanks</Text>
       </TouchableOpacity>
@@ -77,6 +94,7 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 10,
+    textAlign: 'center',
   },
   item: {
     backgroundColor: '#f1f1f1',
@@ -85,9 +103,11 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
   },
   itemText: {
     fontSize: 16,
+    flex: 1,
   },
   addBtn: {
     color: '#007AFF',
@@ -115,7 +135,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   noThanksButton: {
-    backgroundColor: '#FF6347', // A red color to make the button stand out
+    backgroundColor: '#FF6347',
     padding: 12,
     borderRadius: 8,
     marginTop: 20,
