@@ -46,15 +46,15 @@ export default function ConfirmationPage() {
 
       {/* Confirm Button */}
       <TouchableOpacity
-        style={styles.confirmButton}
-        onPress={() => {
-          // Handle purchase confirmation
-          alert('Your order has been placed!');
-          router.back(); // Go back to the previous screen
-        }}
-      >
-        <Text style={styles.confirmButtonText}>Confirm Purchase</Text>
-      </TouchableOpacity>
+  style={styles.confirmButton}
+  onPress={() => {
+    // Handle purchase confirmation
+    alert('Your order has been placed!');
+    router.push('/'); // Navigate to the home (index) page after confirmation
+  }}
+>
+  <Text style={styles.confirmButtonText}>Confirm Purchase</Text>
+</TouchableOpacity>
 
       {/* Cancel Button */}
       <TouchableOpacity

@@ -65,21 +65,14 @@ export default function ConcessionPage() {
 
       {/* No Thanks Button */}
       <TouchableOpacity
-        style={styles.noThanksButton}
-        onPress={() => {
-          // Navigate to the confirmation page with "No Thanks"
-          router.push({
-            pathname: '/confirmation', 
-            params: { 
-              seatPrice: total, 
-              cart: JSON.stringify(cart),
-              seat: seat || 'N/A',
-            }
-          });
-        }} // Send user to confirmation page
-      >
-        <Text style={styles.noThanksText}>No Thanks</Text>
-      </TouchableOpacity>
+  style={styles.noThanksButton}
+  onPress={() => {
+    // Navigate back to the seat selection screen (e.g., '/seats' or the appropriate path)
+    router.push('/seating');  // Ensure '/seats' is the correct path to return to the seat selection page
+  }} 
+>
+  <Text style={styles.noThanksText}>No Thanks</Text>
+</TouchableOpacity>
     </View>
   );
 }

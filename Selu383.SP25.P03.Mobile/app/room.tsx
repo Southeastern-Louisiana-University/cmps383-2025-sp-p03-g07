@@ -13,19 +13,19 @@ export default function RoomPage() {
   const router = useRouter();
   const { movie } = useLocalSearchParams();
   
-  // State for animated button press effect
+ 
   const [scale] = useState(new Animated.Value(1));
 
   const handlePressIn = () => {
     Animated.spring(scale, {
-      toValue: 0.95, // Scale down
+      toValue: 0.95, 
       useNativeDriver: true,
     }).start();
   };
 
   const handlePressOut = () => {
     Animated.spring(scale, {
-      toValue: 1, // Scale back to normal size
+      toValue: 1, 
       useNativeDriver: true,
     }).start();
   };
@@ -42,7 +42,7 @@ export default function RoomPage() {
         {ROOMS.map((room) => (
           <Animated.View
             key={room.id}
-            style={[styles.item, { transform: [{ scale }] }]} // Apply the scale animation
+            style={[styles.item, { transform: [{ scale }] }]} 
           >
             <TouchableOpacity
               onPressIn={handlePressIn}
@@ -63,18 +63,18 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#f8f3fc', // Light purple background
+    backgroundColor: '#f8f3fc',
   },
   title: {
     fontSize: 26,
     fontWeight: 'bold',
-    color: '#6a3e8d', // Dark purple title color
+    color: '#6a3e8d', 
     marginBottom: 10,
     textAlign: 'center',
   },
   description: {
     fontSize: 16,
-    color: '#5d4e85', // Lighter purple for description
+    color: '#5d4e85', 
     marginBottom: 30,
     textAlign: 'center',
     fontStyle: 'italic',
@@ -89,9 +89,9 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 20,
     marginBottom: 18,
-    backgroundColor: '#7a4dff', // Purple button background
+    backgroundColor: '#7a4dff', 
     borderRadius: 20,
-    shadowColor: '#6a3e8d', // Purple shadow color
+    shadowColor: '#6a3e8d', 
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 6,
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
   button: {
     paddingVertical: 6,
     paddingHorizontal: 30,
-    backgroundColor: '#7a4dff', // Purple button background
+    backgroundColor: '#7a4dff', 
     borderRadius: 20,
     alignItems: 'center',
     justifyContent: 'center',
@@ -110,6 +110,6 @@ const styles = StyleSheet.create({
   roomText: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#fff', // White text for contrast
+    color: '#fff', 
   },
 });
