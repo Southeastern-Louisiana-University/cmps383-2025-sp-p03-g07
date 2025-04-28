@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Modal, Button, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Modal, Button } from 'react-native';
 import { useRouter } from 'expo-router';
 
 const NUM_ROWS = 5;
@@ -9,38 +9,30 @@ const Seating = () => {
   const [selectedSeat, setSelectedSeat] = useState<string | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [purchasedSeats, setPurchasedSeats] = useState<Set<string>>(new Set());
-  const [removeMode, setRemoveMode] = useState(false); 
-  const router = useRouter(); 
+  const router = useRouter();
 
   const handleSeatPress = (seatId: string) => {
-    
     if (purchasedSeats.has(seatId)) {
-      if (removeMode) {
-        setPurchasedSeats((prev) => {
-          const newSeats = new Set(prev);
-          newSeats.delete(seatId); 
-          return newSeats;
-        });
-        setSelectedSeat(null); 
-        alert(`Seat ${seatId} has been removed.`);
-      }
+      // If the seat is purchased, remove it from purchasedSeats
+      setPurchasedSeats((prev) => {
+        const newSeats = new Set(prev);
+        newSeats.delete(seatId);
+        return newSeats;
+      });
     } else {
-      if (selectedSeat === seatId) {
-        setSelectedSeat(null); 
-        setModalVisible(false);
-      } else {
-        setSelectedSeat(seatId);
-        setModalVisible(true);
-      }
+      // If the seat is not purchased, set it as the selected seat
+      setSelectedSeat(seatId);
+      setModalVisible(true);
     }
   };
 
   const handlePurchaseSeat = () => {
     if (selectedSeat) {
-      setPurchasedSeats((prev) => new Set(prev).add(selectedSeat)); 
+      // Add the selected seat to purchasedSeats
+      setPurchasedSeats((prev) => new Set(prev).add(selectedSeat));
       alert(`Seat ${selectedSeat} purchased!`);
       setModalVisible(false);
-      setSelectedSeat(null); 
+      setSelectedSeat(null);
     }
   };
 
@@ -58,11 +50,10 @@ const Seating = () => {
             key={seatId}
             style={[
               styles.seat,
-              isPurchased && styles.purchasedSeat, 
+              isPurchased && styles.purchasedSeat,
               isSelected && styles.selectedSeat,
             ]}
             onPress={() => handleSeatPress(seatId)}
-            disabled={isPurchased && !removeMode} 
           >
             <Text style={styles.seatText}>{seatId}</Text>
           </TouchableOpacity>
@@ -80,15 +71,25 @@ const Seating = () => {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.title}>Select Your Seat</Text>
+
+      {/* Movie Screen */}
       <View style={styles.screenBox}>
         <Text style={styles.screenText}>This is where the screen of the movie is</Text>
       </View>
-      <Image
-        source={{ uri: 'https://example.com/screen-image.jpg' }} 
-        style={styles.screenImage}
-      />
-      <Text style={styles.title}>Select Your Seat</Text>
+
+      {/* Seat Grid */}
       {renderSeats()}
+
+      {/* Entrance Doors */}
+      <View style={styles.entranceContainer}>
+        <View style={styles.leftDoor}>
+          <Text style={styles.doorText}>Entrance</Text>
+        </View>
+        <View style={styles.rightDoor}>
+          <Text style={styles.doorText}>Entrance</Text>
+        </View>
+      </View>
 
       {/* Confirmation Modal */}
       {selectedSeat && (
@@ -110,24 +111,11 @@ const Seating = () => {
         </Modal>
       )}
 
-      {/* Remove Mode Toggle */}
-      <TouchableOpacity
-        style={[
-          styles.toggleButton,
-          removeMode && styles.toggleButtonRed, 
-        ]}
-        onPress={() => setRemoveMode(!removeMode)}
-      >
-        <Text style={styles.toggleButtonText}>
-          {removeMode ? 'Disable Remove Mode' : 'Enable Remove Mode'}
-        </Text>
-      </TouchableOpacity>
-
       {/* Next Button to navigate to the next page */}
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           style={styles.nextButton}
-          onPress={() => router.push('/concessions')} 
+          onPress={() => router.push('/concessions')}
         >
           <Text style={styles.nextButtonText}>Next</Text>
         </TouchableOpacity>
@@ -143,6 +131,11 @@ const styles = StyleSheet.create({
     paddingTop: 30,
     alignItems: 'center',
   },
+  title: {
+    fontSize: 22,
+    color: 'white',
+    marginBottom: 20,
+  },
   screenBox: {
     backgroundColor: '#333',
     paddingVertical: 10,
@@ -155,16 +148,38 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
-  screenImage: {
+  entranceContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     width: '100%',
-    height: 10, 
-    marginBottom: 20,
-    resizeMode: 'contain',
-  },
-  title: {
-    fontSize: 22,
+    marginBottom: 10,
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    paddingHorizontal: 20,
     color: 'white',
-    marginBottom: 20,
+  },
+  leftDoor: {
+    backgroundColor: '#800080',
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderRadius: 5,
+    width: 100,
+    alignItems: 'center',
+  },
+  rightDoor: {
+    backgroundColor: '#800080',
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderRadius: 5,
+    width: 100,
+    alignItems: 'center',
+  },
+  doorText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
   row: {
     flexDirection: 'row',
@@ -206,22 +221,9 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   buttonContainer: {
-    flexDirection: 'row', 
+    flexDirection: 'row',
     justifyContent: 'center',
     marginTop: 20,
-  },
-  toggleButton: {
-    backgroundColor: '#444', 
-    padding: 10,
-    borderRadius: 5,
-    marginRight: 10, 
-  },
-  toggleButtonRed: {
-    backgroundColor: 'red', 
-  },
-  toggleButtonText: {
-    color: 'white',
-    fontSize: 16,
   },
   nextButton: {
     backgroundColor: '#00BFFF',
