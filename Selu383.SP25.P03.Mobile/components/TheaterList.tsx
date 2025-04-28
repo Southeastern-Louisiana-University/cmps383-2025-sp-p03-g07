@@ -10,23 +10,40 @@ interface TheaterDto {
   managerId: number | null;
 }
 
-const API_URL = 'https://kingfish-actual-probably.ngrok-free.app/api/theaters';
+// Replace baseUrl with your theater API URL
+const baseUrl = 'https://cmps383-sp25-p03-g07.azurewebsites.net/';
 
 const TheaterList = () => {
   const [theaters, setTheaters] = useState<TheaterDto[]>([]);
   const [loading, setLoading] = useState(false);
-  const [visible, setVisible] = useState(false);
-  const [error, setError] = useState<string | null>(null); // Error state
+  const [error, setError] = useState<string | null>(null);
 
   const fetchTheaters = async () => {
     setLoading(true);
-    setError(null); 
+    setError(null);
+
+    // Use template literals and integrate the baseUrl with the specific endpoint for theaters
+    const url = `${baseUrl}api/theaters/`;
+
     try {
-      const response = await axios.get(API_URL);
-      setTheaters(response.data); 
-      setVisible(true); 
+      // You can also use axios in the way you suggested
+      const response = await axios({
+        method: 'get',
+        url: url,
+      });
+
+      console.log('Fetched Theater Data:', response.data);  // Log the fetched data
+
+      if (Array.isArray(response.data)) {
+        setTheaters(response.data);
+      } else {
+        setError('No theaters found.');
+      }
     } catch (error) {
       console.error('Error fetching theaters:', error);
+      if (axios.isAxiosError(error) && error.response) {
+        console.error('Response Error:', error.response.data); // Log the full error response
+      }
       setError('Error fetching theaters. Please try again later.');
     } finally {
       setLoading(false);
@@ -40,14 +57,14 @@ const TheaterList = () => {
   return (
     <View style={{ padding: 20 }}>
       <Text style={{ fontSize: 24, fontWeight: 'bold' }}>Theaters</Text>
-      
+
       <Button title="Fetch Theaters" onPress={fetchTheaters} disabled={loading} />
-      
+
       {loading && <ActivityIndicator size="large" color="#0000ff" />}
       
       {error && <Text style={{ color: 'red', marginTop: 10 }}>{error}</Text>} {/* Error message */}
 
-      {visible && (
+      {theaters.length > 0 ? (
         <FlatList
           data={theaters}
           renderItem={({ item }) => (
@@ -57,6 +74,8 @@ const TheaterList = () => {
             </View>
           )}
         />
+      ) : (
+        <Text>No theaters found</Text>
       )}
     </View>
   );

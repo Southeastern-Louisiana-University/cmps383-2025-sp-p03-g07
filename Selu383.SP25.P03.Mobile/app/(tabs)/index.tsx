@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
+import { ThemedView } from '@/components/ThemedView';
+import MovieList from '@/components/MovieList';
 import { Picker } from '@react-native-picker/picker';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import axios from 'axios';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import MovieList from '@/components/MovieList';
-import { useNavigation } from '@react-navigation/native';
 
-const API_URL = 'https://kingfish-actual-probably.ngrok-free.app/api/theaters';
+const API_URL = 'https://cmps383-sp25-p03-g07.azurewebsites.net/api/theaters/';
 
 interface TheaterDto {
   id: number;
@@ -69,15 +69,16 @@ export default function HomeScreen() {
         <View style={styles.dropdownContainer}>
           <Icon name="location-arrow" size={20} color="#000" style={styles.icon} />
           <Picker
-            selectedValue={selectedTheater}
-            onValueChange={(itemValue) => setSelectedTheater(itemValue)}
-            style={styles.picker}
-          >
-            <Picker.Item label="Select a theater" value={null} style={{ color: 'white' }} />
-            {theaters.map((theater) => (
-              <Picker.Item key={theater.id} label={theater.name} value={theater.id} />
-            ))}
-          </Picker>
+  selectedValue={selectedTheater}
+  onValueChange={(itemValue) => setSelectedTheater(itemValue)}
+  style={styles.picker}
+  itemStyle={{ color: selectedTheater === null ? '#E9B6FF' : 'white' }}  // Example styling to change color
+>
+  <Picker.Item label="Select a theater" value={null} style={{ color: '#888' }} />
+  {theaters.map((theater) => (
+    <Picker.Item key={theater.id} label={theater.name} value={theater.id} />
+  ))}
+</Picker>
         </View>
       )}
 

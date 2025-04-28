@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, ActivityIndicator, Image, StyleSheet, TouchableOpacity, Modal, Button, Linking } from 'react-native';
 import axios from 'axios';
 import { useRouter } from 'expo-router';
+import { useFocusEffect } from '@react-navigation/core';
 
 interface MovieDto {
   id: number;
@@ -10,7 +11,7 @@ interface MovieDto {
   duration: number;
   showtimes: ShowtimeDto[];
   imageUrl: string;
-  trailerUrl: string;  // Add trailerUrl field
+  trailerUrl: string;
 }
 
 interface ShowtimeDto {
@@ -53,18 +54,25 @@ const MovieList = () => {
 
   const handleCloseModal = () => {
     setModalVisible(false);
-    setSelectedMovie(null);
+    setSelectedMovie(null);  
   };
 
   const handleWatchTrailer = (url: string) => {
     Linking.openURL(url);  
   };
 
-  return (
-    <View style={{ padding: 20 }}>
-      <Text style={styles.header}>Movies</Text>
+  useFocusEffect(
+    React.useCallback(() => {
+      setModalVisible(false);
+      setSelectedMovie(null);
+      fetchMovies();
+    }, [])
+  );
 
-      {loading && <ActivityIndicator size="large" color="#0000ff" />}
+  return (
+    <View style={styles.container}>
+
+      {loading && <ActivityIndicator size="large" color="#800080" />}
       {error && <Text style={styles.errorText}>{error}</Text>}
 
       <FlatList
@@ -87,14 +95,6 @@ const MovieList = () => {
                 <Text style={styles.showtime} key={showtime.id}>- {showtime.time}</Text>
               ))}
             </View>
-
-            {/* More Details Button */}
-            <TouchableOpacity
-              style={styles.moreDetailsButton}
-              onPress={() => router.push(`/MovieDetails/${item.id}`)} // Navigate to MovieDetail page
-            >
-              <Text style={styles.moreDetailsButtonText}>More Details</Text>
-            </TouchableOpacity>
           </TouchableOpacity>
         )}
       />
@@ -126,10 +126,16 @@ const MovieList = () => {
                 <Text style={styles.trailerButtonText}>Watch Trailer</Text>
               </TouchableOpacity>
 
-              <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%', marginTop: 20 }}>
-                <View style={{ flex: 1, marginRight: 10 }}>
-                  <Button title="Close" onPress={handleCloseModal} />
-                </View>
+              {/* More Details Button inside the Modal */}
+              <TouchableOpacity
+                style={styles.moreDetailsButton}
+                onPress={() => router.push(`/MovieDetails/${selectedMovie.id}`)}
+              >
+                <Text style={styles.moreDetailsButtonText}>More Details</Text>
+              </TouchableOpacity>
+
+              <View style={styles.buttonRow}>
+                <Button title="Close" onPress={handleCloseModal} />
                 <Button
                   title="Get Your Ticket!"
                   onPress={() => {
@@ -147,65 +153,83 @@ const MovieList = () => {
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#1A1A3C', // Darker purple background
+    padding: 20,
+  },
   header: {
-    fontSize: 24,
+    fontSize: 25,
     fontWeight: 'bold',
-    color: 'white',
+    color: '#E9B6FF', // Light purple
+    marginBottom: 20,
+    textAlign: 'center',
   },
   errorText: {
-    color: 'red',
+    color: '#FF6347',
     marginTop: 10,
+    textAlign: 'center',
   },
   movieContainer: {
     flexDirection: 'row',
-    marginVertical: 10,
-    backgroundColor: '#121212',
-    padding: 10,
-    borderRadius: 8,
+    marginVertical: 15,
+    backgroundColor: '#2A2A6D', // Slightly darker purple for cards
+    padding: 15,
+    borderRadius: 15,
+    elevation: 5,
+    shadowColor: '#000',
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
   },
   movieImage: {
-    width: 120,
-    height: 180,
+    width: 130,
+    height: 200,
     borderRadius: 10,
-    marginRight: 15,
+    marginRight: 20,
+    borderWidth: 2,
+    borderColor: '#E9B6FF',
   },
   movieTextContainer: {
     flex: 1,
     justifyContent: 'center',
   },
   movieTitle: {
-    fontSize: 18,
+    fontSize: 22,
     fontWeight: 'bold',
-    color: 'white',
+    color: '#FFFFFF',
     marginBottom: 5,
   },
   movieDetails: {
-    color: 'white',
+    color: '#D3D3D3',
+    fontSize: 14,
   },
   showtime: {
-    color: 'white',
+    color: '#E9B6FF',
+    fontSize: 14,
   },
   moreDetailsButton: {
-    marginTop: 10,
-    backgroundColor: '#007AFF',
-    padding: 10,
+    marginTop: 15,
+    backgroundColor: '#E9B6FF',
+    padding: 12,
     borderRadius: 5,
     alignItems: 'center',
+    width: '100%',
   },
   moreDetailsButtonText: {
-    color: '#fff',
-    fontWeight: '600',
+    color: '#1A1A3C',
+    fontWeight: '700',
   },
   trailerButton: {
-    marginTop: 10,
-    backgroundColor: '#007AFF',
-    padding: 10,
+    marginTop: 15,
+    backgroundColor: '#8A2BE2',
+    padding: 12,
     borderRadius: 5,
     alignItems: 'center',
+    width: '100%',
   },
   trailerButtonText: {
-    color: '#fff',
-    fontWeight: '600',
+    color: '#FFFFFF',
+    fontWeight: '700',
   },
   modalContainer: {
     flex: 1,
@@ -214,29 +238,41 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.7)',
   },
   modalContent: {
-    backgroundColor: '#fff',
-    padding: 20,
-    borderRadius: 10,
-    width: '80%',
+    backgroundColor: '#3E2882',
+    padding: 25,
+    borderRadius: 15,
+    width: '85%',
     alignItems: 'center',
+    shadowColor: '#000',
+    shadowOpacity: 0.3,
+    shadowRadius: 10,
   },
   modalTitle: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: 'bold',
+    color: '#E9B6FF',
+    marginBottom: 10,
   },
   modalImage: {
-    width: 150,
-    height: 225,
+    width: 180,
+    height: 270,
     borderRadius: 10,
-    marginVertical: 15,
+    marginBottom: 15,
   },
   modalDetails: {
     fontSize: 16,
+    color: '#D3D3D3',
     marginVertical: 5,
   },
   modalShowtime: {
     fontSize: 14,
-    color: 'gray',
+    color: '#E9B6FF',
+  },
+  buttonRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+    marginTop: 15,
   },
 });
 
