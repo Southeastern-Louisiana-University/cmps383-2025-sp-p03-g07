@@ -15,7 +15,8 @@ const TheaterUpdateForm: React.FC = () => {
     id: 0,
     name: "",
     address: "",
-    seatCount: 0,
+    imageUrl: "",
+    Screen: [],
   });
 
   const [id, setId] = useState("");
@@ -82,14 +83,6 @@ const TheaterUpdateForm: React.FC = () => {
           multiline
           rows={3}
           value={form.address}
-          onChange={handleChange}
-          required
-        />
-        <TextField
-          label="Seat Count"
-          name="seatCount"
-          type="number"
-          value={form.seatCount}
           onChange={handleChange}
           required
         />

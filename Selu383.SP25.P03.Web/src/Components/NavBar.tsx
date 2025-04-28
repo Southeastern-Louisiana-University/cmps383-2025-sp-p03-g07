@@ -2,7 +2,6 @@ import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import { useNavigate } from "react-router-dom";
 import { Avatar, Box, Button, Typography } from "@mui/material";
-import TheaterLocation from "./TheaterLocation";
 
 function ResponsiveAppBar() {
   const navigate = useNavigate();
@@ -33,7 +32,6 @@ function ResponsiveAppBar() {
             Home
           </Button>
           <Typography variant="h6">Lion's Den Cinemas</Typography>
-          <TheaterLocation />
           <Button onClick={() => navigate("/login")} color="inherit">
             Sign Up
           </Button>

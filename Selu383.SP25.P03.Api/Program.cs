@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Selu383.SP25.P03.Api.Data;
+using Selu383.SP25.P03.Api.Features.Screens;
 using Selu383.SP25.P03.Api.Features.Users;
-using Swashbuckle.AspNetCore;
 
 namespace Selu383.SP25.P03.Api
 {
@@ -71,8 +71,10 @@ namespace Selu383.SP25.P03.Api
                 await db.Database.MigrateAsync();
                 SeedTheaters.Initialize(scope.ServiceProvider);
                 SeedMovies.Initialize(scope.ServiceProvider);
+                await SeedScreens.Initialize(scope.ServiceProvider);
                 await SeedRoles.Initialize(scope.ServiceProvider);
                 await SeedUsers.Initialize(scope.ServiceProvider);
+                
             }
             if (app.Environment.IsDevelopment())
             {

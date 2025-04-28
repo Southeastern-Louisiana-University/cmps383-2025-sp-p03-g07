@@ -56,12 +56,15 @@ namespace Selu383.SP25.P03.Api.Data
                 .HasForeignKey(s => s.MovieId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade); // Deleting a movie deletes its screens
+
+            // Set up Feedback and Movie relationship
             builder.Entity<Feedback>()
                 .HasOne(f => f.Movie)
                 .WithMany()
                 .HasForeignKey(f => f.MovieId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.Restrict); // Prevent deletion of a movie with feedback
         }
+
 
     }
 }

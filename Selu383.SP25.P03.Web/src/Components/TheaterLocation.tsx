@@ -1,29 +1,40 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useEffect, useState } from "react";
 import {
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  SelectChangeEvent,
+  Container,
+  Typography,
+  Grid,
+  Card,
+  CardContent,
+  CardActions,
+  Button,
   Box,
+  CircularProgress,
+  CardMedia,
 } from "@mui/material";
-import { useNavigate } from "react-router-dom";
-import { Theater } from "../types";
+import axios from "axios";
 
-const TheaterList = () => {
+// Define the Theater type
+interface Theater {
+  id: number;
+  name: string;
+  address: string;
+  seatCount: number;
+  imageUrl: string; // Assuming the theater has an image URL property
+}
+
+const MainPage: React.FC = () => {
   const [theaters, setTheaters] = useState<Theater[]>([]);
-  const [selectedTheater, setSelectedTheater] = useState<number>(0);
-  const [, setLoading] = useState(false);
-  const [, setVisible] = useState(false); // Controls visibility
-  const navigate = useNavigate();
+  const [loading, setLoading] = useState<boolean>(false);
+  const [selectedLocation, setSelectedLocation] = useState<string>("");
 
+  // Fetch theaters from the API
   const fetchTheaters = async () => {
     setLoading(true);
     try {
-      const response = await axios.get("https://cmps383-sp25-p03-g07.azurewebsites.net/api/theaters");
-      setTheaters(response.data); // Store API data in state
-      setVisible(true); // Show the data when fetched
+      const response = await axios.get<Theater[]>(
+        "https://localhost:7027/api/theaters"
+      );
+      setTheaters(response.data);
     } catch (error) {
       console.error("Error fetching theaters:", error);
     } finally {
@@ -32,55 +43,74 @@ const TheaterList = () => {
   };
 
   useEffect(() => {
-    fetchTheaters(); // Call fetchTheaters on component mount
-  }, []); // Empty dependency array to call only once when the component mounts
+    fetchTheaters();
+  }, []);
 
-  const handleChange = (event: SelectChangeEvent<number>) => {
-    setSelectedTheater(event.target.value as number); // Update selected theater ID
+  const handleLocationSelect = (location: string) => {
+    setSelectedLocation(location);
+    // Here, you can either filter theaters by location or redirect to a different page
+    // For now, let's filter the theaters by the selected location
+    const filteredTheaters = theaters.filter((theater) =>
+      theater.address.toLowerCase().includes(location.toLowerCase())
+    );
+    setTheaters(filteredTheaters);
   };
 
-  const handleSubmit = () => {
-    if (selectedTheater) {
-      navigate(`/theaters/${selectedTheater}`);
-    }
-  };
+  if (loading) {
+    return (
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        height="100vh"
+      >
+        <CircularProgress />
+      </Box>
+    );
+  }
 
   return (
-    <div>
-      <Box sx={{ minWidth: 120 }}>
-        <FormControl fullWidth>
-          <InputLabel id="select-theater-label" sx={{ color: "#00000f" }}>
-            Select Theater
-          </InputLabel>
-          <Select
-            labelId="select-theater-label"
-            value={selectedTheater}
-            onChange={handleChange}
-            onClick={handleSubmit}
-            sx={{
-              color: "Black",
-              backgroundColor: "rgba(255, 255, 255, 0.2)",
-              "& .MuiOutlinedInput-notchedOutline": {
-                borderColor: "white",
-              },
-              "&:hover .MuiOutlinedInput-notchedOutline": {
-                borderColor: "black",
-              },
-              "& .MuiSvgIcon-root": {
-                color: "black",
-              },
-            }}
-          >
-            {theaters.map((theater) => (
-              <MenuItem key={theater.id} value={theater.id}>
-                {theater.name} - {theater.address}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </Box>
-    </div>
+    <Container>
+      <Typography variant="h4" gutterBottom>
+        Select a Theater Location
+      </Typography>
+
+      <Grid container spacing={4}>
+        {theaters.map((theater) => (
+          <Grid key={theater.id}>
+            <Card>
+              <CardMedia
+                component="img"
+                height="200"
+                image={theater.imageUrl}
+                alt={theater.name}
+              />
+              <CardContent>
+                <Typography variant="h5">{theater.name}</Typography>
+                <Typography variant="body1">{theater.address}</Typography>
+              </CardContent>
+              <CardActions>
+                <Button
+                  size="small"
+                  color="primary"
+                  onClick={() => handleLocationSelect(theater.address)}
+                >
+                  Select Location
+                </Button>
+              </CardActions>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
+
+      {/* Display selected location */}
+      {selectedLocation && (
+        <Typography variant="h6" mt={4}>
+          You have selected theaters in: {selectedLocation}
+        </Typography>
+      )}
+    </Container>
   );
 };
 
-export default TheaterList;
+export default MainPage;

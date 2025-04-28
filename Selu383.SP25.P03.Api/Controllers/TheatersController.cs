@@ -28,7 +28,14 @@ namespace Selu383.SP25.P03.Api.Controllers
         [HttpGet]
         public IQueryable<TheaterDto> GetAllTheaters()
         {
-            return GetTheaterDtos(theaters);
+             return theaters
+            .Select(x => new TheaterDto
+            {
+                Id = x.Id,
+                Name = x.Name,
+                Address = x.Address,
+                ImageUrl = x.ImageUrl // Add this line to include ImageUrl in the DTO
+            });
         }
 
         [HttpGet]
@@ -57,6 +64,7 @@ namespace Selu383.SP25.P03.Api.Controllers
             {
                 Name = dto.Name,
                 Address = dto.Address,
+                ImageUrl = dto.ImageUrl, // Include ImageUrl
             };
 
             dataContext.Theaters.Add(theater);
@@ -92,14 +100,9 @@ namespace Selu383.SP25.P03.Api.Controllers
 
             theater.Name = dto.Name;
             theater.Address = dto.Address;
-
-            if (User.IsInRole(UserRoleNames.Admin))
-            {
-            }
+            theater.ImageUrl = dto.ImageUrl; // Update ImageUrl
 
             dataContext.SaveChanges();
-
-            dto.Id = theater.Id;
 
             return Ok("Successfully updated Theater");
         }
@@ -137,6 +140,7 @@ namespace Selu383.SP25.P03.Api.Controllers
                     Id = x.Id,
                     Name = x.Name,
                     Address = x.Address,
+                    ImageUrl = x.ImageUrl, // Include ImageUrl
                 });
         }
     }

@@ -2,7 +2,8 @@ export interface Theater {
   id: number;
   name: string;
   address: string;
-  seatCount: number; 
+  Screen: Screen[];
+  imageUrl: string;
 }
 
 export interface Showtime {
@@ -40,3 +41,16 @@ export interface MovieSchedule {
   theater: Theater;
   showtime: number;
 }
+
+
+export interface Screen {
+  screenId: number;
+  theaterId: number;
+  theaterName: string;
+  location: string;
+  seatCount: number;
+  movieId: number;
+  movieTitle: string;
+  movieGenre: string;
+  movieUrl: string;
+};

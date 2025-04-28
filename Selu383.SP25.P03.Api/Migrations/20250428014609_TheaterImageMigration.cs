@@ -5,24 +5,25 @@
 namespace Selu383.SP25.P03.Api.Migrations
 {
     /// <inheritdoc />
-    public partial class @new : Migration
+    public partial class TheaterImageMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "TrailerUrl",
-                table: "Movies",
+                name: "TheaterImageUrl",
+                table: "Theaters",
                 type: "nvarchar(max)",
-                nullable: true);
+                nullable: false,
+                defaultValue: "");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "TrailerUrl",
-                table: "Movies");
+                name: "TheaterImageUrl",
+                table: "Theaters");
         }
     }
 }

@@ -22,14 +22,15 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
 import axios from "axios";
-import { Theater } from "../types"; // Assuming you have the Theater type
+import { Theater } from "../types"; // Ensure Screen type is imported
 
 // Define a default theater object for creating new theaters
 const defaultTheater: Theater = {
   id: 0,
   name: "",
   address: "",
-  seatCount: 0,
+  imageUrl: "",
+  Screen: [],
 };
 
 const TheaterTableWithCRUD: React.FC = () => {
@@ -62,7 +63,10 @@ const TheaterTableWithCRUD: React.FC = () => {
   const handleSave = async () => {
     if (editingTheater.id === 0) {
       // Create new theater
-      await axios.post("https://cmps383-sp25-p03-g07.azurewebsites.net/api/theaters", editingTheater);
+      await axios.post(
+        "https://cmps383-sp25-p03-g07.azurewebsites.net/api/theaters",
+        editingTheater
+      );
     } else {
       // Update existing theater
       await axios.put(
@@ -78,7 +82,9 @@ const TheaterTableWithCRUD: React.FC = () => {
   // Handle deletion of a theater
   const handleDelete = async (id: number) => {
     if (window.confirm("Are you sure you want to delete this theater?")) {
-      await axios.delete(`https://cmps383-sp25-p03-g07.azurewebsites.net/api/theaters/${id}`);
+      await axios.delete(
+        `https://cmps383-sp25-p03-g07.azurewebsites.net/api/theaters/${id}`
+      );
       fetchTheaters(); // Refresh the list after deletion
     }
   };
@@ -104,7 +110,6 @@ const TheaterTableWithCRUD: React.FC = () => {
                 <TableCell>{theater.id}</TableCell>
                 <TableCell>{theater.name}</TableCell>
                 <TableCell>{theater.address}</TableCell>
-                <TableCell>{theater.seatCount}</TableCell>
                 <TableCell>
                   <Tooltip title="Edit Theater">
                     <IconButton
@@ -170,15 +175,6 @@ const TheaterTableWithCRUD: React.FC = () => {
             name="address"
             label="Address"
             value={editingTheater.address}
-            onChange={handleInputChange}
-            fullWidth
-            required
-          />
-          <TextField
-            name="seatCount"
-            label="Seat Count"
-            type="number"
-            value={editingTheater.seatCount}
             onChange={handleInputChange}
             fullWidth
             required
