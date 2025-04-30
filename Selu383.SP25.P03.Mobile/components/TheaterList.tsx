@@ -10,7 +10,7 @@ interface TheaterDto {
   managerId: number | null;
 }
 
-const API_URL = 'https://kingfish-actual-probably.ngrok-free.app/api/theaters';
+const API_URL = 'https://cmps383-sp25-p03-g07.azurewebsites.net/api/theaters';
 
 const TheaterList = () => {
   const [theaters, setTheaters] = useState<TheaterDto[]>([]);
