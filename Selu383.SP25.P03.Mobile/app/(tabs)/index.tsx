@@ -7,7 +7,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import axios from 'axios';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const API_URL = 'https://kingfish-actual-probably.ngrok-free.app/api/theaters';
+const API_URL = 'https://cmps383-sp25-p03-g07.azurewebsites.net/api/theaters';
 
 interface TheaterDto {
   id: number;

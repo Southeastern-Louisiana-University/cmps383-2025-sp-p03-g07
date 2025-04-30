@@ -18,7 +18,7 @@ interface ShowtimeDto {
   time: string;
 }
 
-const API_URL = 'https://kingfish-actual-probably.ngrok-free.app/api/movies';
+const API_URL = 'https://cmps383-sp25-p03-g07.azurewebsites.net/api/movies';
 
 const MovieList = () => {
   const router = useRouter();
